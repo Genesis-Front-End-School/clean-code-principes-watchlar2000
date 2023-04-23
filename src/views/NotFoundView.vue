@@ -1,7 +1,15 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const toHome = computed(() => { 
+  return { name: 'home' };
+})
+</script>
+
 <template>
   <div class="not-found">
     <h2>404 | Not found</h2>
-    <router-link :to="{ name: 'home' }">Go back home</router-link>
+    <router-link :to="toHome">Go back home</router-link>
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { VideoPlayer } from '@videojs-player/vue';
 import 'video.js/dist/video-js.css';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 
 const props = defineProps<{
   src: string;
@@ -12,17 +12,19 @@ const videoSource = reactive({
   src: props.src,
   type: 'application/x-mpegURL',
 });
+
+const isSrcEmpty = computed(() => props.src === '');
 </script>
 
 <template>
-  <div v-if="props.src === ''">Loading..</div>
+  <div v-if="isSrcEmpty">Loading..</div>
   <video-player
+    :poster="poster"
+    :sources="[videoSource]"
     autoplay
     class="video-player vjs-theme-forest"
-    :poster="poster"
     crossorigin="anonymous"
     controls
-    :sources="[videoSource]"
   />
 </template>
 
@@ -39,7 +41,7 @@ const videoSource = reactive({
 
 .vjs-modal-dialog .vjs-modal-dialog-content,
 .video-js .vjs-modal-dialog,
-.vjs-button > .vjs-icon-placeholder:before,
+.vjs-button>.vjs-icon-placeholder:before,
 .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
   position: static;
 }

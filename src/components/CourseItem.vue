@@ -12,72 +12,82 @@ const courseStore = useCourseStore();
 const { selectedCourse } = storeToRefs(courseStore);
 
 const back = () => {
-  router.push({ name: 'home' });
+  router.go(-1);
 };
 
 const lessonError = ref<LessonError | Record<string, string>>({});
-const selectedLesson = ref<Lesson | Record<string, never>>({});
+const selectedLesson = ref<Lesson | Record<string, string>>({});
+
+const clearLessonError = () => {
+  lessonError.value = {};
+}
+
+const selectUnlockedLesson = (lesson: Lesson) => {
+  const { link, previewImageLink, order } = lesson;
+
+  selectedLesson.value = lesson;
+  videoSrc.value = link;
+  videoPoster.value = `${previewImageLink}/lesson-${order}.webp`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+const selectLockedLesson = (lesson: Lesson) => {
+  lessonError.value.message = 'This lesson is locked.';
+  lessonError.value.lessonId = lesson.id;
+};
 
 const selectLesson = (lesson: Lesson) => {
-  lessonError.value = {};
+  clearLessonError();
 
-  const { status, id, link, previewImageLink, order } = lesson;
-
-  if (status !== 'locked') {
-    selectedLesson.value = lesson;
-    videoSrc.value = link;
-    videoPoster.value = `${previewImageLink}/lesson-${order}.webp`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    return;
+  if (lesson.status !== 'locked') {
+    selectUnlockedLesson(lesson);
+  } else {
+    selectLockedLesson(lesson);
   }
-
-  lessonError.value.message = 'This lesson is locked.';
-  lessonError.value.lessonId = id;
 };
 
 const isSelectedLessonEmpty = computed(() => {
   return JSON.stringify(selectedLesson.value) === '{}';
 });
 
-const videoSrc = ref<string>(selectedCourse.value.meta?.courseVideoPreview?.link || '');
-const videoPoster = ref<string>(`${selectedCourse.value.previewImageLink}/cover.webp` || '');
+const videoSrc = ref<string>(selectedCourse.value?.meta.courseVideoPreview?.link ?? '');
+const videoPoster = ref<string>(`${selectedCourse.value?.previewImageLink}/cover.webp`);
 
 watch(selectedCourse, (fetchedCourse) => {
-  const src = fetchedCourse.meta.courseVideoPreview?.link;
-  const poster = `${fetchedCourse.previewImageLink}/cover.webp`;
+  const src = fetchedCourse?.meta.courseVideoPreview?.link;
+  const poster = `${fetchedCourse?.previewImageLink}/cover.webp`;
 
-  if (src !== undefined) {
-    videoSrc.value = src;
-    videoPoster.value = poster;
+  if (!src) {
+    videoSrc.value = src ?? '';
+    videoPoster.value = poster ?? '';
   }
 });
 
 const sortedLessons = computed(() => {
-  const { lessons } = selectedCourse.value;
-
-  if (lessons?.length === 0) {
-    return;
-  }
-
+  const { lessons } = selectedCourse.value ?? { lessons: [] };
   return lessons?.sort((a, b) => a.order - b.order);
 });
 </script>
 
 <template>
   <div class="course-section">
-    <button @click="back" class="button-back">
-      <span><font-awesome-icon icon="arrow-left" /></span> Back
+    <button
+      @click="back"
+      class="button-back"
+    >
+      <font-awesome-icon icon="arrow-left" />
+      <span>Back</span>
     </button>
-    <h2 class="title">{{ selectedCourse.title }}</h2>
+    <h2 class="title">{{ selectedCourse?.title }}</h2>
     <div v-if="!isSelectedLessonEmpty">
       <p>You are watching lesson #{{ selectedLesson.order }}:</p>
       <span class="lesson-title">{{ selectedLesson.title }}</span>
     </div>
-    <VideoPlayer
+    <video-player
+      v-if="selectedCourse?.meta.courseVideoPreview?.link"
       :key="videoSrc"
       :src="videoSrc"
       :poster="videoPoster"
-      v-if="selectedCourse.meta?.courseVideoPreview?.link"
     />
 
     <ul class="list">
@@ -94,9 +104,10 @@ const sortedLessons = computed(() => {
 
 <style scoped lang="scss">
 .course-section {
-  max-width: 900px;
+  max-width: 850px;
   margin-inline: auto;
 }
+
 .list {
   margin-top: 24px;
   width: 100%;

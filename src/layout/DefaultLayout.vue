@@ -21,7 +21,6 @@ import BaseHeader from '@/components/BaseHeader.vue';
   min-height: 100vh;
   display: grid;
   grid-template-rows: 125px auto 100px;
-  justify-content: center;
   grid-template-areas:
     'header'
     'main'
@@ -37,7 +36,6 @@ import BaseHeader from '@/components/BaseHeader.vue';
   grid-area: main;
   display: grid;
   margin: 0 12px;
-  max-width: 1600px;
   height: 100%;
 }
 

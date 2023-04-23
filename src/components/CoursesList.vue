@@ -7,6 +7,7 @@ import BasePagination from './BasePagination.vue';
 import CoursesListItem from './CoursesListItem.vue';
 
 const courseStore = useCourseStore();
+const { paginateCourses } = courseStore;
 const { page } = storeToRefs(courseStore);
 
 const router = useRouter();
@@ -24,10 +25,10 @@ watch(page, () => {
   <div>
     <div class="course-grid">
       <div
-        v-for="course in courseStore.paginate"
+        v-for="course in paginateCourses"
         :key="course.id"
       >
-        <CoursesListItem :course="course" />
+        <courses-list-item :course="course" />
       </div>
     </div>
     <base-pagination

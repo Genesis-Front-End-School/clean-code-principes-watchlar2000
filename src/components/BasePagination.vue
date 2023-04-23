@@ -9,11 +9,11 @@ const props = defineProps<{
 }>();
 
 const startPage = computed(() => {
-  if (props.currentPage === 1) {
+  if (isFirstPage.value) {
     return 1;
   }
 
-  if (props.currentPage === props.totalPages) {
+  if (isLastPage.value) {
     return props.maxVisibleButtons;
   }
 
@@ -26,12 +26,10 @@ const isPageActive = (page: number) => {
 
 const pages = computed(() => {
   const range = [];
-  let initPage;
+  let initPage = startPage.value;
 
   if (startPage.value === props.maxVisibleButtons) {
     initPage = 1;
-  } else {
-    initPage = startPage.value;
   }
 
   for (
@@ -48,11 +46,11 @@ const pages = computed(() => {
   return range;
 });
 
-const isInFirstPage = computed(() => {
+const isFirstPage = computed(() => {
   return props.currentPage === 1;
 });
 
-const isInLastPage = computed(() => {
+const isLastPage = computed(() => {
   return props.currentPage === props.totalPages;
 });
 
@@ -86,26 +84,45 @@ const onClickLastPage = () => {
 <template>
   <ul class="pagination">
     <li>
-      <button type="button" @click="onClickFirstPage" :disabled="isInFirstPage">First</button>
+      <button
+        :disabled="isFirstPage"
+        type="button"
+        @click="onClickFirstPage"
+      >First</button>
     </li>
     <li>
-      <button type="button" @click="onClickPreviousPage" :disabled="isInFirstPage">Prev</button>
-    </li>
-    <li v-for="(page, idx) in pages" :key="idx">
       <button
+        :disabled="isFirstPage"
         type="button"
-        @click="onClickPage(page.name)"
+        @click="onClickPreviousPage"
+      >Prev</button>
+    </li>
+    <li
+      v-for="(page, idx) in pages"
+      :key="idx"
+    >
+      <button
         :disabled="page.isDisabled"
         :class="{ active: isPageActive(page.name) }"
+        type="button"
+        @click="onClickPage(page.name)"
       >
         {{ page.name }}
       </button>
     </li>
     <li>
-      <button type="button" @click="onClickNextPage" :disabled="isInLastPage">Next</button>
+      <button
+        :disabled="isLastPage"
+        type="button"
+        @click="onClickNextPage"
+      >Next</button>
     </li>
     <li>
-      <button type="button" @click="onClickLastPage" :disabled="isInLastPage">Last</button>
+      <button
+        :disabled="isLastPage"
+        type="button"
+        @click="onClickLastPage"
+      >Last</button>
     </li>
   </ul>
 </template>

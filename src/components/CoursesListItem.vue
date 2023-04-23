@@ -1,30 +1,51 @@
 <script setup lang="ts">
 import type { Course } from '@/types/Course';
+import { computed } from 'vue';
 
 const props = defineProps<{
   course: Course;
 }>();
+
+const toCourse = computed(() => {
+  return { name: 'course', params: { id: props.course.id } }
+});
+
+const titleImgSrc = computed(() => `${props.course.previewImageLink}/cover.webp`);
+
+const areSkillsPresented = computed(() => props.course.meta.skills !== undefined);
 </script>
 
 <template>
   <div class="course-section">
     <h2 class="title">
-      <router-link :to="{ name: 'course', params: { id: props.course.id } }">{{
+      <router-link :to="toCourse">{{
         props.course.title
       }}</router-link>
     </h2>
-    <img :src="`${props.course.previewImageLink}/cover.webp`" :alt="props.course.title" />
+    <img
+      :src="titleImgSrc"
+      :alt="props.course.title"
+    />
     <div class="course-category">
       <p class="category">{{ course.lessonsCount }} lessons</p>
       <p class="category">
         Rating: <span>{{ course.rating }}</span>
       </p>
     </div>
-    <div class="skills" v-show="course.meta.skills !== undefined">
+    <div
+      v-show="areSkillsPresented"
+      class="skills"
+    >
       <h4 class="category">Skills:</h4>
       <ul class="skills-list">
-        <li v-for="(skill, idx) in course.meta.skills" :key="idx">
-          <font-awesome-icon icon="check" class="icon" /> {{ skill }}
+        <li
+          v-for="(skill, idx) in course.meta.skills"
+          :key="idx + skill"
+        >
+          <font-awesome-icon
+            icon="check"
+            class="icon"
+          /> {{ skill }}
         </li>
       </ul>
     </div>
@@ -35,5 +56,10 @@ const props = defineProps<{
 .course-section {
   height: 100%;
   transition: all 0.1s ease;
+}
+
+.video-player {
+  min-width: 370px;
+  min-height: 160px;
 }
 </style>

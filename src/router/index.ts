@@ -1,4 +1,3 @@
-import { useCourseStore } from '@/store/course';
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
@@ -9,24 +8,6 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Home',
     },
-    async beforeEnter(to, next) {
-      const { loadCourses, courses, checkCurrentPage } = useCourseStore();
-
-      const { page } = to.query;
-
-      if (page !== undefined && page !== null) {
-        checkCurrentPage(+page);
-      }
-
-      try {
-        if (courses.length === 0) {
-          loadCourses();
-        }
-        next;
-      } catch (e) {
-        console.log(e);
-      }
-    }
   },
   {
     path: '/course/:id',
@@ -35,23 +16,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Course',
     },
-    async beforeEnter(to, next) {
-      const { findDetailedCourseById } = useCourseStore();
-
-      const id = to.params.id as string;
-
-      try {
-        await findDetailedCourseById(id);
-        next;
-      } catch (e) {
-        console.log(e);
-      }
-    }
   },
   {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('@/views/NotFoundView.vue'),
+    props: true,
     meta: {
       title: '404',
     },
@@ -65,9 +35,9 @@ const router = createRouter({
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { top: 0, behavior: 'smooth' };
+      return { top: 0, left: 0, behavior: 'smooth' };
     }
-  },
+  }
 });
 
 router.beforeEach((to, from, next) => {

@@ -2,9 +2,7 @@
   <div class="loader">
     <p>Loading</p>
     <div class="blob-container">
-      <div class="blob"></div>
-      <div class="blob"></div>
-      <div class="blob"></div>
+      <div v-for="div in 3" :key="div" class="blob"></div>
     </div>
   </div>
 </template>
@@ -19,6 +17,7 @@
   font-size: 28px;
   color: var(--primary-50);
 }
+
 .blob-container {
   margin-top: 12px;
   display: flex;

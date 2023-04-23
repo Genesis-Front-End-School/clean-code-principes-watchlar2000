@@ -1,4 +1,4 @@
-import CourseDataService from '@/api/CourseDataService';
+import { courseDataService } from '@/api/CourseDataService';
 import type { Course } from '@/types/Course';
 import type { CourseRootState } from '@/types/CourseRootState';
 import { defineStore } from 'pinia';
@@ -12,9 +12,9 @@ export const useCourseStore = defineStore('course', {
   ({
     courses: [],
     detailedCourses: [],
-    selectedCourse: {},
+    selectedCourse: null,
     page: 1,
-    loading: false,
+    loading: true,
     error: false,
     errorMessage: '',
   } as CourseRootState),
@@ -23,31 +23,28 @@ export const useCourseStore = defineStore('course', {
     async loadCourses() {
       try {
         this.loading = true;
-        const { data } = await CourseDataService.getAll();
-        this.courses = data.courses;
+        const courses = await courseDataService.getCourses();
+        this.courses = courses;
       } catch (e: unknown) {
-        const typedError = e as Error;
-        this.error = true;
-        this.errorMessage = typedError.message;
+        this.handleActionError(e);
       } finally {
         this.loading = false;
       }
     },
-    async loadCourseById(id: string): Promise<any> {
+    async loadCourseById(id: string): Promise<Course | null> {
       try {
         this.loading = true;
-        const { data } = await CourseDataService.getCourseById(id);
-        this.detailedCourses.push(data);
-        return data;
+        const course = await courseDataService.getCourseById(id);
+        this.detailedCourses.push(course);
+        return course;
       } catch (e: unknown) {
-        const typedError = e as Error;
-        this.error = true;
-        this.errorMessage = typedError.message;
+        this.handleActionError(e);
+        return null;
       } finally {
         this.loading = false;
       }
     },
-    async findDetailedCourseById(id: string): Promise<any> {
+    async setDetailedCourseById(id: string): Promise<any> {
       const courseData = this.detailedCourses.find((course) => course.id === id);
 
       if (courseData !== undefined) {
@@ -58,15 +55,18 @@ export const useCourseStore = defineStore('course', {
       this.selectedCourse = await this.loadCourseById(id);
       return;
     },
-    checkCurrentPage(page: number) {
-      if (this.page !== page) {
-        this.page = page;
-      }
+    setInitPage(page: number) {
+      this.page = page;
+    },
+    handleActionError(e: unknown) {
+      const typedError = e as Error;
+      this.error = true;
+      this.errorMessage = typedError.message;
     },
   },
 
   getters: {
-    paginate(): Course[] {
+    paginateCourses(): Course[] {
       const coursesPerPage = Pagination.per_page;
 
       if (this.page === 1) {
