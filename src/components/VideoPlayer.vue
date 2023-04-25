@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { VideoPlayer } from '@videojs-player/vue';
-import 'video.js/dist/video-js.css';
-import { computed, reactive } from 'vue';
+import { reactive } from 'vue';
 
 const props = defineProps<{
   src: string;
@@ -12,19 +11,15 @@ const videoSource = reactive({
   src: props.src,
   type: 'application/x-mpegURL',
 });
-
-const isSrcEmpty = computed(() => props.src === '');
 </script>
 
 <template>
-  <div v-if="isSrcEmpty">Loading..</div>
   <video-player
+    ref="player"
     :poster="poster"
     :sources="[videoSource]"
-    autoplay
     class="video-player vjs-theme-forest"
     crossorigin="anonymous"
-    controls
   />
 </template>
 

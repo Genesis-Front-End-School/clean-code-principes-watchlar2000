@@ -88,6 +88,8 @@ const sortedLessons = computed(() => {
       :key="videoSrc"
       :src="videoSrc"
       :poster="videoPoster"
+      autoplay
+      controls
     />
 
     <ul class="list">

@@ -6,9 +6,14 @@ import { useRouter } from 'vue-router';
 import BasePagination from './BasePagination.vue';
 import CoursesListItem from './CoursesListItem.vue';
 
+enum Pagination {
+  ItemsPerPage = 10,
+  MaxVisibleButtons = 3,
+}
+
 const courseStore = useCourseStore();
-const { paginateCourses } = courseStore;
-const { page } = storeToRefs(courseStore);
+// const { paginateCourses } = courseStore;
+const { page, paginateCourses } = storeToRefs(courseStore);
 
 const router = useRouter();
 
@@ -33,9 +38,9 @@ watch(page, () => {
     </div>
     <base-pagination
       :total-pages="courseStore.totalPages"
-      :per-page="10"
+      :per-page="Pagination.ItemsPerPage"
       :current-page="courseStore.page"
-      :max-visible-buttons="3"
+      :max-visible-buttons="Pagination.MaxVisibleButtons"
       @pagechange="onPageChange"
     />
   </div>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Course } from '@/types/Course';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import VideoPlayer from './VideoPlayer.vue';
 
 const props = defineProps<{
   course: Course;
@@ -10,9 +11,19 @@ const toCourse = computed(() => {
   return { name: 'course', params: { id: props.course.id } }
 });
 
-const titleImgSrc = computed(() => `${props.course.previewImageLink}/cover.webp`);
+const isVideoPlayed = ref<boolean>(false);
 
+function playVideo() {
+  isVideoPlayed.value = true;
+}
+
+function stopVideo() {
+  isVideoPlayed.value = false;
+}
+
+const titleImgSrc = computed(() => `${props.course.previewImageLink}/cover.webp`);
 const areSkillsPresented = computed(() => props.course.meta.skills !== undefined);
+const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link);
 </script>
 
 <template>
@@ -22,9 +33,13 @@ const areSkillsPresented = computed(() => props.course.meta.skills !== undefined
         props.course.title
       }}</router-link>
     </h2>
-    <img
-      :src="titleImgSrc"
-      :alt="props.course.title"
+    <video-player
+      v-if="videoSrc && titleImgSrc"
+      :src="videoSrc"
+      :poster="titleImgSrc"
+      :autoplay="isVideoPlayed"
+      @mouseenter="playVideo"
+      @mouseleave="stopVideo"
     />
     <div class="course-category">
       <p class="category">{{ course.lessonsCount }} lessons</p>
