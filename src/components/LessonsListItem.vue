@@ -24,7 +24,7 @@ const displayError = computed(() => props.error.message && props.error.lessonId 
 </script>
 
 <template>
-  <li
+  <div
     :class="{
       locked: isLessonLocked,
     }"
@@ -54,17 +54,21 @@ const displayError = computed(() => props.error.message && props.error.lessonId 
       <span>Play the video</span>
       <font-awesome-icon icon="play" />
     </button>
-  </li>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .lesson {
+  width: 100%;
   padding: 18px;
   background-color: var(--color-background-alt);
 
   .title {
-    font-size: 18px;
+    font-family: 'Open Sans';
+    font-size: 20px;
     color: var(--color-text);
+    line-height: 1.2;
+    font-weight: 600;
   }
 }
 

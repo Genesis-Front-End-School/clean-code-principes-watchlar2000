@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Course } from '@/types/Course';
 import { computed, ref } from 'vue';
+import CourseItemHeader from './CourseItemHeader.vue';
 import VideoPlayer from './VideoPlayer.vue';
 
 const props = defineProps<{
@@ -35,11 +36,11 @@ const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link ?? ''
 
 <template>
   <div class="course-section">
-    <h2 class="title">
+    <course-item-header>
       <router-link :to="toCourse">{{
         props.course.title
       }}</router-link>
-    </h2>
+    </course-item-header>
     <video-player
       v-if="isVideoSupported"
       :src="videoSrc"
@@ -84,10 +85,5 @@ const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link ?? ''
 .course-section {
   height: 100%;
   transition: all 0.1s ease;
-}
-
-.video-player {
-  min-width: 370px;
-  min-height: 160px;
 }
 </style>
