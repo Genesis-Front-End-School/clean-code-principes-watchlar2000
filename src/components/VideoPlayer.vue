@@ -2,15 +2,28 @@
 import { VideoPlayer } from '@videojs-player/vue';
 import { reactive } from 'vue';
 
+const emit = defineEmits<{
+  (e: 'source-error'): void;
+}>();
+
 const props = defineProps<{
   src: string;
   poster: string;
 }>();
 
-const videoSource = reactive({
+interface IVideoSource {
+  src: string;
+  type: string;
+}
+
+const videoSource = reactive<IVideoSource>({
   src: props.src,
   type: 'application/x-mpegURL',
 });
+
+const onError = () => {
+  emit('source-error');
+};
 </script>
 
 <template>
@@ -18,8 +31,9 @@ const videoSource = reactive({
     ref="player"
     :poster="poster"
     :sources="[videoSource]"
-    class="video-player vjs-theme-forest"
+    class="video-player"
     crossorigin="anonymous"
+    @error="onError"
   />
 </template>
 

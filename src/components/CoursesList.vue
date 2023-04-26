@@ -1,28 +1,23 @@
 <script setup lang="ts">
 import { useCourseStore } from '@/store/course';
+import { Pagination } from '@/types/Course';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { useRouter } from 'vue-router';
 import BasePagination from './BasePagination.vue';
 import CoursesListItem from './CoursesListItem.vue';
 
-enum Pagination {
-  ItemsPerPage = 10,
-  MaxVisibleButtons = 3,
-}
-
 const courseStore = useCourseStore();
-// const { paginateCourses } = courseStore;
-const { page, paginateCourses } = storeToRefs(courseStore);
+const { currentPage, getPaginatedCourses, getTotalPages } = storeToRefs(courseStore);
 
 const router = useRouter();
 
 const onPageChange = (page: number) => {
-  courseStore.page = page;
+  courseStore.currentPage = page;
 };
 
-watch(page, () => {
-  router.replace({ query: { page: page.value } });
+watch(currentPage, () => {
+  router.replace({ query: { page: currentPage.value } });
 });
 </script>
 
@@ -30,16 +25,16 @@ watch(page, () => {
   <div>
     <div class="course-grid">
       <div
-        v-for="course in paginateCourses"
+        v-for="course in getPaginatedCourses"
         :key="course.id"
       >
         <courses-list-item :course="course" />
       </div>
     </div>
     <base-pagination
-      :total-pages="courseStore.totalPages"
+      :total-pages="getTotalPages"
       :per-page="Pagination.ItemsPerPage"
-      :current-page="courseStore.page"
+      :current-page="currentPage"
       :max-visible-buttons="Pagination.MaxVisibleButtons"
       @pagechange="onPageChange"
     />

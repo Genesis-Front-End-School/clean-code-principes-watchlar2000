@@ -21,11 +21,13 @@ export interface Lesson {
   duration: number;
   order: number;
   type: string;
-  status: string;
+  status: LessonStatus;
   link: string;
   previewImageLink: string;
   meta: null;
 }
+
+type LessonStatus = 'locked' | 'unlocked';
 
 interface Meta {
   slug: string;
@@ -42,4 +44,9 @@ interface Preview {
 export interface LessonError {
   message: string;
   lessonId: string;
+}
+
+export enum Pagination {
+  ItemsPerPage = 10,
+  MaxVisibleButtons = 3,
 }

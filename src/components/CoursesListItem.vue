@@ -12,6 +12,7 @@ const toCourse = computed(() => {
 });
 
 const isVideoPlayed = ref<boolean>(false);
+const isVideoSupported = ref<boolean>(true);
 
 function playVideo() {
   isVideoPlayed.value = true;
@@ -21,9 +22,13 @@ function stopVideo() {
   isVideoPlayed.value = false;
 }
 
+function handleVideoError() {
+  isVideoSupported.value = false;
+}
+
 const titleImgSrc = computed(() => `${props.course.previewImageLink}/cover.webp`);
 const areSkillsPresented = computed(() => props.course.meta.skills !== undefined);
-const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link);
+const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link ?? '');
 </script>
 
 <template>
@@ -34,12 +39,18 @@ const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link);
       }}</router-link>
     </h2>
     <video-player
-      v-if="videoSrc && titleImgSrc"
+      v-if="isVideoSupported"
       :src="videoSrc"
       :poster="titleImgSrc"
       :autoplay="isVideoPlayed"
+      @source-error="handleVideoError"
       @mouseenter="playVideo"
       @mouseleave="stopVideo"
+    />
+    <img
+      v-if="!isVideoSupported"
+      :src="`${props.course.previewImageLink}/cover.webp`"
+      :alt="props.course.title"
     />
     <div class="course-category">
       <p class="category">{{ course.lessonsCount }} lessons</p>
