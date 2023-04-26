@@ -27,7 +27,9 @@ function handleVideoError() {
 }
 
 const titleImgSrc = computed(() => `${props.course.previewImageLink}/cover.webp`);
+
 const areSkillsPresented = computed(() => props.course.meta.skills !== undefined);
+
 const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link ?? '');
 </script>
 

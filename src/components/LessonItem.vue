@@ -7,7 +7,6 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
-  // lesson: Lesson;
   id: string;
   title: string;
   order: number;
@@ -89,4 +88,5 @@ const displayError = computed(() => props.error.message && props.error.lessonId 
   color: var(--color-danger);
   font-size: 18px;
   margin-top: 14px;
-}</style>
+}
+</style>
