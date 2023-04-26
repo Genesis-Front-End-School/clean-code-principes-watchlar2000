@@ -1,43 +1,6 @@
-<script setup lang="ts">
-import { useCourseStore } from '@/store/course';
-import { Pagination } from '@/types/Course';
-import { storeToRefs } from 'pinia';
-import { watch } from 'vue';
-import { useRouter } from 'vue-router';
-import BasePagination from './BasePagination.vue';
-import CoursesListItem from './CoursesListItem.vue';
-
-const courseStore = useCourseStore();
-const { currentPage, getPaginatedCourses, getTotalPages } = storeToRefs(courseStore);
-
-const router = useRouter();
-
-const onPageChange = (page: number) => {
-  courseStore.currentPage = page;
-};
-
-watch(currentPage, () => {
-  router.replace({ query: { page: currentPage.value } });
-});
-</script>
-
 <template>
-  <div>
-    <div class="course-grid">
-      <div
-        v-for="course in getPaginatedCourses"
-        :key="course.id"
-      >
-        <courses-list-item :course="course" />
-      </div>
-    </div>
-    <base-pagination
-      :total-pages="getTotalPages"
-      :per-page="Pagination.ItemsPerPage"
-      :current-page="currentPage"
-      :max-visible-buttons="Pagination.MaxVisibleButtons"
-      @pagechange="onPageChange"
-    />
+  <div class="course-grid">
+    <slot />
   </div>
 </template>
 

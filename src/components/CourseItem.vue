@@ -11,38 +11,48 @@ const router = useRouter();
 const courseStore = useCourseStore();
 const { selectedCourse } = storeToRefs(courseStore);
 
-const back = () => {
+const back = (): void => {
   router.go(-1);
 };
 
 const lessonError = ref<LessonError | Record<string, string>>({});
 const selectedLesson = ref<Lesson | Record<string, string>>({});
 
-const clearLessonError = () => {
+const findLessonById = (id: string): Lesson | null => {
+  return selectedCourse.value?.lessons?.find(lesson => lesson.id === id) ?? null;
+}
+
+const clearLessonError = (): void => {
   lessonError.value = {};
 }
 
-const selectUnlockedLesson = (lesson: Lesson) => {
-  const { link, previewImageLink, order } = lesson;
+const selectUnlockedLesson = (id: string): void => {
+  const lesson = findLessonById(id);
 
-  selectedLesson.value = lesson;
-  videoSrc.value = link;
-  videoPoster.value = `${previewImageLink}/lesson-${order}.webp`;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (lesson !== null) {
+    const { link, previewImageLink, order } = lesson;
+
+    selectedLesson.value = lesson;
+    videoSrc.value = link;
+    videoPoster.value = `${previewImageLink}/lesson-${order}.webp`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 };
 
-const selectLockedLesson = (lesson: Lesson) => {
+const selectLockedLesson = (id: string): void => {
   lessonError.value.message = 'This lesson is locked.';
-  lessonError.value.lessonId = lesson.id;
+  lessonError.value.lessonId = id;
 };
 
-const selectLesson = (lesson: Lesson) => {
+const selectLesson = (id: string): void => {
   clearLessonError();
 
-  if (lesson.status !== 'locked') {
-    selectUnlockedLesson(lesson);
+  const lesson = findLessonById(id);
+
+  if (lesson?.status !== 'locked') {
+    selectUnlockedLesson(id);
   } else {
-    selectLockedLesson(lesson);
+    selectLockedLesson(id);
   }
 };
 
@@ -91,12 +101,14 @@ const sortedLessons = computed(() => {
       autoplay
       controls
     />
-
     <ul class="list">
       <lesson-item
         v-for="lesson in sortedLessons"
         :key="lesson.id"
-        :lesson="lesson"
+        :id="lesson.id"
+        :title="lesson.title"
+        :order="lesson.order"
+        :status="lesson.status"
         :error="lessonError"
         @select="selectLesson"
       />

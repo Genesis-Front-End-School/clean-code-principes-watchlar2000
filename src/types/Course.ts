@@ -27,7 +27,7 @@ export interface Lesson {
   meta: null;
 }
 
-type LessonStatus = 'locked' | 'unlocked';
+export type LessonStatus = 'locked' | 'unlocked';
 
 interface Meta {
   slug: string;

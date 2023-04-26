@@ -26,9 +26,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div>
-    <base-loader v-if="isLoading" />
-    <base-error v-else-if="hasError">The course you are looking for is not existing.</base-error>
-    <course-item v-else />
-  </div>
+  <base-loader v-if="isLoading" />
+  <base-error v-else-if="hasError">The course you are looking for is not existing.</base-error>
+  <course-item v-else />
 </template>
