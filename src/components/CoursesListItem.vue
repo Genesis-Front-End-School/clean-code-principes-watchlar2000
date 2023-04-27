@@ -12,15 +12,15 @@ const toCourse = computed(() => {
   return { name: 'course', params: { id: props.course.id } }
 });
 
-const isVideoPlayed = ref<boolean>(false);
+const isVideoPlaying = ref<boolean>(false);
 const isVideoSupported = ref<boolean>(true);
 
 function playVideo() {
-  isVideoPlayed.value = true;
+  isVideoPlaying.value = true;
 }
 
 function stopVideo() {
-  isVideoPlayed.value = false;
+  isVideoPlaying.value = false;
 }
 
 function handleVideoError() {
@@ -45,7 +45,7 @@ const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link ?? ''
       v-if="isVideoSupported"
       :src="videoSrc"
       :poster="titleImgSrc"
-      :autoplay="isVideoPlayed"
+      :autoplay="isVideoPlaying"
       @source-error="handleVideoError"
       @mouseenter="playVideo"
       @mouseleave="stopVideo"

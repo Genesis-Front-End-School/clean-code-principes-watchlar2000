@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import BasePaginationButton from './BasePaginationButton.vue';
 
 const props = defineProps<{
   maxVisibleButtons: number;
@@ -82,49 +83,43 @@ const onClickLastPage = () => {
 </script>
 
 <template>
-  <ul class="pagination">
-    <li>
-      <button
-        :disabled="isFirstPage"
-        type="button"
-        @click="onClickFirstPage"
-      >First</button>
-    </li>
-    <li>
-      <button
-        :disabled="isFirstPage"
-        type="button"
-        @click="onClickPreviousPage"
-      >Prev</button>
-    </li>
-    <li
+  <div class="pagination">
+    <base-pagination-button
+      :disabled="isFirstPage"
+      @click="onClickFirstPage"
+    >
+      First
+    </base-pagination-button>
+
+    <base-pagination-button
+      :disabled="isFirstPage"
+      @click="onClickPreviousPage"
+    >
+      Prev
+    </base-pagination-button>
+    <base-pagination-button
       v-for="(page, idx) in pages"
       :key="idx"
+      :disabled="page.isDisabled"
+      :class="{ active: isPageActive(page.name) }"
+      @click="onClickPage(page.name)"
     >
-      <button
-        :disabled="page.isDisabled"
-        :class="{ active: isPageActive(page.name) }"
-        type="button"
-        @click="onClickPage(page.name)"
-      >
-        {{ page.name }}
-      </button>
-    </li>
-    <li>
-      <button
-        :disabled="isLastPage"
-        type="button"
-        @click="onClickNextPage"
-      >Next</button>
-    </li>
-    <li>
-      <button
-        :disabled="isLastPage"
-        type="button"
-        @click="onClickLastPage"
-      >Last</button>
-    </li>
-  </ul>
+      {{ page.name }}
+    </base-pagination-button>
+
+    <base-pagination-button
+      :disabled="isLastPage"
+      @click="onClickNextPage"
+    >
+      Next
+    </base-pagination-button>
+    <base-pagination-button
+      :disabled="isLastPage"
+      @click="onClickLastPage"
+    >
+      Last
+    </base-pagination-button>
+  </div>
 </template>
 
 <style lang="scss" scoped>
