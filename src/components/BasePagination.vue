@@ -90,7 +90,6 @@ const onClickLastPage = () => {
     >
       First
     </base-pagination-button>
-
     <base-pagination-button
       :disabled="isFirstPage"
       @click="onClickPreviousPage"
@@ -106,7 +105,6 @@ const onClickLastPage = () => {
     >
       {{ page.name }}
     </base-pagination-button>
-
     <base-pagination-button
       :disabled="isLastPage"
       @click="onClickNextPage"

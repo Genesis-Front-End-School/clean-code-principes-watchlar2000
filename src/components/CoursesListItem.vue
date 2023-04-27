@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import type { Course } from '@/types/Course';
 import { computed, ref } from 'vue';
 import CourseItemHeader from './CourseItemHeader.vue';
 import VideoPlayer from './VideoPlayer.vue';
 
 const props = defineProps<{
-  course: Course;
+  id: string;
+  title: string;
+  lessonsCount: number | string;
+  rating: number | string;
+  image: string;
+  skills: string[];
+  video: string;
 }>();
 
 const toCourse = computed(() => {
-  return { name: 'course', params: { id: props.course.id } }
+  return { name: 'course', params: { id: props.id } }
 });
 
 const isVideoPlaying = ref<boolean>(false);
@@ -27,48 +32,39 @@ function handleVideoError() {
   isVideoSupported.value = false;
 }
 
-const titleImgSrc = computed(() => `${props.course.previewImageLink}/cover.webp`);
-
-const areSkillsPresented = computed(() => props.course.meta.skills !== undefined);
-
-const videoSrc = computed(() => props.course.meta.courseVideoPreview?.link ?? '');
+const imageSource = computed(() => `${props.image}/cover.webp`);
+const areSkillsPresented = computed(() => props.skills.length !== 0)
 </script>
 
 <template>
   <div class="course-section">
     <course-item-header>
       <router-link :to="toCourse">{{
-        props.course.title
+        title
       }}</router-link>
     </course-item-header>
     <video-player
-      v-if="isVideoSupported"
-      :src="videoSrc"
-      :poster="titleImgSrc"
-      :autoplay="isVideoPlaying"
+      :src="video"
+      :poster="imageSource"
+      :autoplay="isVideoPlaying && isVideoSupported"
       @source-error="handleVideoError"
       @mouseenter="playVideo"
       @mouseleave="stopVideo"
     />
-    <img
-      v-if="!isVideoSupported"
-      :src="`${props.course.previewImageLink}/cover.webp`"
-      :alt="props.course.title"
-    />
     <div class="course-category">
-      <p class="category">{{ course.lessonsCount }} lessons</p>
+      <p class="category">{{ lessonsCount }} lessons</p>
       <p class="category">
-        Rating: <span>{{ course.rating }}</span>
+        Rating: <span>{{ rating }}</span>
       </p>
     </div>
     <div
-      v-show="areSkillsPresented"
+      v-if="areSkillsPresented"
       class="skills"
     >
-      <h4 class="category">Skills:</h4>
+      <h3 class="category title">Skills:</h3>
       <ul class="skills-list">
         <li
-          v-for="(skill, idx) in course.meta.skills"
+          v-for="(skill, idx) in skills"
           :key="idx + skill"
         >
           <font-awesome-icon

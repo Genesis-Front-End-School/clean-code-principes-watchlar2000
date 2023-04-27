@@ -53,6 +53,13 @@ onMounted(() => {
         v-for="course in getPaginatedCourses"
         :course="course"
         :key="course.title"
+        :id="course.id"
+        :title="course.title"
+        :lessons-count="course.lessonsCount ?? 0"
+        :rating="course.rating"
+        :image="course.previewImageLink"
+        :video="course.meta.courseVideoPreview?.link ?? ''"
+        :skills="course.meta.skills ?? []"
       />
     </courses-list>
     <base-pagination

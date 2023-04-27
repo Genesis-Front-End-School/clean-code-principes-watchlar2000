@@ -63,7 +63,12 @@ button {
 }
 
 .category {
-  font-size: 22px;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.category.title {
+  font-weight: 600;
 }
 
 .course-category {

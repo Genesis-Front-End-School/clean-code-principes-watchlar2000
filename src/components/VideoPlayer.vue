@@ -21,7 +21,8 @@ const videoSource = reactive<IVideoSource>({
   type: 'application/x-mpegURL',
 });
 
-const onError = () => {
+const onError = (e) => {
+  console.log(e);
   emit('source-error');
 };
 </script>
