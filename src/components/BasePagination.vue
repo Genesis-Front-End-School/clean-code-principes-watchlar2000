@@ -2,12 +2,18 @@
 import { computed } from 'vue';
 import BasePaginationButton from './BasePaginationButton.vue';
 
-const props = defineProps<{
+interface BasePaginationProps {
   maxVisibleButtons: number;
   totalPages: number;
   perPage: number;
   currentPage: number;
-}>();
+}
+
+const props = withDefaults(defineProps<BasePaginationProps>(), {
+  maxVisibleButtons: 3,
+  perPage: 10,
+  currentPage: 1
+});
 
 const startPage = computed(() => {
   if (isFirstPage.value) {

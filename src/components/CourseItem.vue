@@ -34,7 +34,6 @@ const selectUnlockedLesson = (id: string): void => {
 
   if (lesson !== null) {
     const { link, previewImageLink, order } = lesson;
-
     selectedLesson.value = lesson;
     videoSrc.value = link;
     videoPoster.value = `${previewImageLink}/lesson-${order}.webp`;
@@ -49,7 +48,6 @@ const selectLockedLesson = (id: string): void => {
 
 const selectLesson = (id: string): void => {
   clearLessonError();
-
   const lesson = findLessonById(id);
 
   if (lesson?.status !== 'locked') {
