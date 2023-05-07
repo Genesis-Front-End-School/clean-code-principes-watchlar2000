@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BaseError from '@/components/BaseError.vue';
-import BaseLoader from '@/components/BaseLoader.vue';
-import BasePagination from '@/components/BasePagination.vue';
-import CoursesList from '@/components/CoursesList.vue';
-import CoursesListItem from '@/components/CoursesListItem.vue';
+import BaseError from '@/components/common/BaseError.vue';
+import BaseLoader from '@/components/common/BaseLoader.vue';
+import CoursesList from '@/components/courses/CoursesList.vue';
+import CoursesListItem from '@/components/courses/CoursesListItem.vue';
+import BasePagination from '@/components/ui/pagination/PaginationBlock.vue';
 import { useCourseStore, useErrorStore, useLoadingStore } from '@/store/_index';
 import { Pagination } from '@/types/Course';
 import { storeToRefs } from 'pinia';
@@ -46,14 +46,16 @@ onMounted(() => {
 
 <template>
   <base-loader v-if="isLoading" />
-  <base-error v-else-if="hasError">{{ message }}</base-error>
+  <base-error v-else-if="hasError">
+    {{ message }}
+  </base-error>
   <div v-else>
     <courses-list>
       <courses-list-item
         v-for="course in getPaginatedCourses"
-        :course="course"
-        :key="course.title"
         :id="course.id"
+        :key="course.title"
+        :course="course"
         :title="course.title"
         :lessons-count="course.lessonsCount ?? 0"
         :rating="course.rating"

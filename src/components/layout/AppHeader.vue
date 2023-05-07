@@ -1,6 +1,8 @@
 <template>
   <header class="header">
-    <h1 class="title">Courses App</h1>
+    <h1 class="title">
+      Courses App
+    </h1>
   </header>
 </template>
 

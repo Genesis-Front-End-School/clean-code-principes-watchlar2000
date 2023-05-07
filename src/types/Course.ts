@@ -49,4 +49,5 @@ export interface LessonError {
 export enum Pagination {
   ItemsPerPage = 10,
   MaxVisibleButtons = 3,
+  CurrentPage = 1,
 }

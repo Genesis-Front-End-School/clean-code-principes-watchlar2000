@@ -8,12 +8,12 @@ import { useLoadingStore } from './loading';
 
 export const useCourseStore = defineStore('course', {
   state: () =>
-  ({
-    courses: [],
-    cashedCoursesDetails: [] as Course[],
-    selectedCourse: null,
-    currentPage: 1,
-  } as ICourseRootState),
+    ({
+      courses: [],
+      cashedCoursesDetails: [] as Course[],
+      selectedCourse: null,
+      currentPage: 1,
+    } as ICourseRootState),
 
   actions: {
     async fetchCourses() {
@@ -28,7 +28,6 @@ export const useCourseStore = defineStore('course', {
       } finally {
         this.stopLoading();
       }
-
     },
     async fetchCourseById(id: string): Promise<Course | null> {
       this.startLoading();
@@ -44,7 +43,6 @@ export const useCourseStore = defineStore('course', {
       } finally {
         this.stopLoading();
       }
-
     },
     async setDetailedCourseById(id: string): Promise<void> {
       const courseData = this.getCashedCourse(id);
@@ -54,7 +52,6 @@ export const useCourseStore = defineStore('course', {
       } else {
         this.selectedCourse = await this.fetchCourseById(id);
       }
-
     },
     getCashedCourse(id: string): Course | null {
       const courseData = this.cashedCoursesDetails.find((course) => course.id === id) || null;

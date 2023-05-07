@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import VideoPlayer from './VideoPlayer.vue';
+import VideoPlayer from '../../ui/video-player/VideoPlayer.vue';
 
 defineProps<{
   source: string;
   poster: string;
-  isSelectedLessonEmpty: boolean;
 }>();
 </script>
 

@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import BaseFooter from '@/components/BaseFooter.vue';
-import BaseHeader from '@/components/BaseHeader.vue';
+import AppFooter from './AppFooter.vue';
+import AppHeader from './AppHeader.vue';
 </script>
 
 <template>
   <div class="container">
-    <base-header
+    <app-header
       class="header"
       title="Courses app"
     />
     <main class="main">
       <slot />
     </main>
-    <base-footer class="footer" />
+    <app-footer class="footer" />
   </div>
 </template>
 

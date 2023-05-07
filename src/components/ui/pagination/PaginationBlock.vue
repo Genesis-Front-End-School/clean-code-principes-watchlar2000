@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import BasePaginationButton from './BasePaginationButton.vue';
+import { Pagination } from '@/types/Course';
+import { computed, ref, watch } from 'vue';
+import PaginationButton from './PaginationButton.vue';
 
 interface BasePaginationProps {
   maxVisibleButtons: number;
@@ -10,10 +11,12 @@ interface BasePaginationProps {
 }
 
 const props = withDefaults(defineProps<BasePaginationProps>(), {
-  maxVisibleButtons: 3,
-  perPage: 10,
-  currentPage: 1
+  maxVisibleButtons: Pagination.MaxVisibleButtons,
+  perPage: Pagination.ItemsPerPage,
+  currentPage: Pagination.CurrentPage,
 });
+
+const actualPage = ref<number>(props.currentPage);
 
 const startPage = computed(() => {
   if (isFirstPage.value) {
@@ -24,11 +27,11 @@ const startPage = computed(() => {
     return props.maxVisibleButtons;
   }
 
-  return props.currentPage - 1;
+  return actualPage.value - 1;
 });
 
 const isPageActive = (page: number) => {
-  return props.currentPage === page;
+  return actualPage.value === page;
 };
 
 const pages = computed(() => {
@@ -46,7 +49,7 @@ const pages = computed(() => {
   ) {
     range.push({
       name: i,
-      isDisabled: i === props.currentPage,
+      isDisabled: i === actualPage.value,
     });
   }
 
@@ -54,11 +57,11 @@ const pages = computed(() => {
 });
 
 const isFirstPage = computed(() => {
-  return props.currentPage === 1;
+  return actualPage.value === 1;
 });
 
 const isLastPage = computed(() => {
-  return props.currentPage === props.totalPages;
+  return actualPage.value === props.totalPages;
 });
 
 const emit = defineEmits<{
@@ -66,43 +69,45 @@ const emit = defineEmits<{
 }>();
 
 const onClickFirstPage = () => {
-  emit('pagechange', 1);
+  actualPage.value = 1;
 };
 
 const onClickPreviousPage = () => {
-  const prevPage = props.currentPage - 1;
-  emit('pagechange', prevPage);
+  actualPage.value = actualPage.value - 1;
 };
 
 const onClickPage = (page: number) => {
-  emit('pagechange', page);
+  actualPage.value = page;
 };
 
 const onClickNextPage = () => {
-  const nextPage = props.currentPage + 1;
-  emit('pagechange', nextPage);
+  actualPage.value = actualPage.value + 1;
 };
 
 const onClickLastPage = () => {
-  emit('pagechange', props.totalPages);
+  actualPage.value = props.totalPages;
 };
+
+watch(actualPage, (newPage) => {
+  emit('pagechange', newPage);
+});
 </script>
 
 <template>
   <div class="pagination">
-    <base-pagination-button
+    <pagination-button
       :disabled="isFirstPage"
       @click="onClickFirstPage"
     >
       First
-    </base-pagination-button>
-    <base-pagination-button
+    </pagination-button>
+    <pagination-button
       :disabled="isFirstPage"
       @click="onClickPreviousPage"
     >
       Prev
-    </base-pagination-button>
-    <base-pagination-button
+    </pagination-button>
+    <pagination-button
       v-for="(page, idx) in pages"
       :key="idx"
       :disabled="page.isDisabled"
@@ -110,19 +115,19 @@ const onClickLastPage = () => {
       @click="onClickPage(page.name)"
     >
       {{ page.name }}
-    </base-pagination-button>
-    <base-pagination-button
+    </pagination-button>
+    <pagination-button
       :disabled="isLastPage"
       @click="onClickNextPage"
     >
       Next
-    </base-pagination-button>
-    <base-pagination-button
+    </pagination-button>
+    <pagination-button
       :disabled="isLastPage"
       @click="onClickLastPage"
     >
       Last
-    </base-pagination-button>
+    </pagination-button>
   </div>
 </template>
 

@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import type { LessonError, LessonStatus } from '@/types/Course';
 import { computed } from 'vue';
+import type { Lesson, LessonError } from '../../../types/Course';
 
 const emit = defineEmits<{
   (e: 'select', id: string): void;
 }>();
 
 const props = defineProps<{
-  id: string;
-  title: string;
-  order: number;
-  status: LessonStatus;
-  error: LessonError | Record<string, string>;
+  error: LessonError | null;
+  lesson: Lesson
 }>();
 
 const onSelect = (): void => {
-  emit('select', props.id);
+  emit('select', props.lesson.id);
 };
 
-const isLessonLocked = computed(() => props.status === 'locked');
+const isLessonLocked = computed(() => props.lesson.status === 'locked');
 
-const displayError = computed(() => props.error.message && props.error.lessonId === props.id);
+const displayError = computed(() => props.error?.message && props.error?.lessonId === props.lesson.id);
 </script>
 
 <template>
@@ -36,20 +33,20 @@ const displayError = computed(() => props.error.message && props.error.lessonId 
         icon="lock"
         class="lesson-chip"
       />
-      Lesson {{ order }}: {{ title }}
+      Lesson {{ lesson.order }}: {{ lesson.title }}
     </h3>
     <p
-      v-if="displayError"
+      v-if="displayError && props.error"
       class="error"
     >
       This lesson is locked
     </p>
     <button
       :class="{
-          disabled: status === 'locked',
-        }"
-      @click="onSelect()"
+        disabled: lesson.status === 'locked',
+      }"
       class="button-play"
+      @click="onSelect"
     >
       <span>Play the video</span>
       <font-awesome-icon icon="play" />

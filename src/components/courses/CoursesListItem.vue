@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import CourseItemHeader from './CourseItemHeader.vue';
-import VideoPlayer from './VideoPlayer.vue';
+import VideoPlayer from '../ui/video-player/VideoPlayer.vue';
+import CourseItemHeader from './course/CourseItemHeader.vue';
+import SkillsList from './skills/SkillsList.vue';
+import SkillsListItem from './skills/SkillsListItem.vue';
 
 const props = defineProps<{
   id: string;
@@ -39,9 +41,11 @@ const areSkillsPresented = computed(() => props.skills.length !== 0)
 <template>
   <div class="course-section">
     <course-item-header>
-      <router-link :to="toCourse">{{
-        title
-      }}</router-link>
+      <router-link :to="toCourse">
+        {{
+          title
+        }}
+      </router-link>
     </course-item-header>
     <video-player
       :src="video"
@@ -52,7 +56,9 @@ const areSkillsPresented = computed(() => props.skills.length !== 0)
       @mouseleave="stopVideo"
     />
     <div class="course-category">
-      <p class="category">{{ lessonsCount }} lessons</p>
+      <p class="category">
+        {{ lessonsCount }} lessons
+      </p>
       <p class="category">
         Rating: <span>{{ rating }}</span>
       </p>
@@ -61,18 +67,16 @@ const areSkillsPresented = computed(() => props.skills.length !== 0)
       v-if="areSkillsPresented"
       class="skills"
     >
-      <h3 class="category title">Skills:</h3>
-      <ul class="skills-list">
-        <li
-          v-for="(skill, idx) in skills"
-          :key="idx + skill"
-        >
-          <font-awesome-icon
-            icon="check"
-            class="icon"
-          /> {{ skill }}
-        </li>
-      </ul>
+      <h3 class="category title">
+        Skills:
+      </h3>
+      <skills-list>
+        <skills-list-item
+          v-for="(skill) in skills"
+          :key="skill"
+          :skill="skill"
+        />
+      </skills-list>
     </div>
   </div>
 </template>

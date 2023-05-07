@@ -18,6 +18,14 @@ export default [
     },
   },
   {
+    path: '/auth-failed',
+    name: 'auth-failed',
+    component: () => import('@/views/AuthFailedView.vue'),
+    meta: {
+      title: 'Auth failed',
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('@/views/NotFoundView.vue'),

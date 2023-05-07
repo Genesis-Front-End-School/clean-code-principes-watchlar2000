@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { useCourseStore } from '@/store/course';
-import type { Lesson, LessonError } from '@/types/Course';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import CourseItemHeader from './CourseItemHeader.vue';
-import CourseItemVideo from './CourseItemVideo.vue';
-import LessonsList from './LessonsList.vue';
-import LessonsListItem from './LessonsListItem.vue';
+import { useCourseStore } from '../../../store/course';
+import type { Lesson, LessonError } from '../../../types/Course';
+import CourseItemHeader from '../course/CourseItemHeader.vue';
+import CourseItemVideo from '../course/CourseItemVideo.vue';
+import LessonsList from '../lessons/LessonsList.vue';
+import LessonsListItem from '../lessons/LessonsListItem.vue';
 
 const router = useRouter();
 const courseStore = useCourseStore();
 const { selectedCourse } = storeToRefs(courseStore);
 const videoSrc = ref<string>(selectedCourse.value?.meta.courseVideoPreview?.link ?? '');
 const videoPoster = ref<string>(`${selectedCourse.value?.previewImageLink}/cover.webp`);
-const lessonError = ref<LessonError | Record<string, string>>({});
-const selectedLesson = ref<Lesson | Record<string, string>>({});
+const lessonError = ref<LessonError | null>(null);
+const selectedLesson = ref<Lesson | null>(null);
 
 const back = (): void => {
   router.go(-1);
@@ -26,13 +26,13 @@ const findLessonById = (id: string): Lesson | null => {
 }
 
 const clearLessonError = (): void => {
-  lessonError.value = {};
+  lessonError.value = null;
 }
 
 const selectUnlockedLesson = (id: string): void => {
   const lesson = findLessonById(id);
 
-  if (lesson !== null) {
+  if (lesson) {
     const { link, previewImageLink, order } = lesson;
     selectedLesson.value = lesson;
     videoSrc.value = link;
@@ -42,8 +42,10 @@ const selectUnlockedLesson = (id: string): void => {
 };
 
 const selectLockedLesson = (id: string): void => {
-  lessonError.value.message = 'This lesson is locked.';
-  lessonError.value.lessonId = id;
+  if (lessonError.value) {
+    lessonError.value.message = 'This lesson is locked.';
+    lessonError.value.lessonId = id;
+  }
 };
 
 const selectLesson = (id: string): void => {
@@ -58,7 +60,7 @@ const selectLesson = (id: string): void => {
 };
 
 const isSelectedLessonEmpty = computed(() => {
-  return JSON.stringify(selectedLesson.value) === '{}';
+  return JSON.stringify(selectedLesson.value) === null;
 });
 
 const sortedLessons = computed(() => {
@@ -69,12 +71,12 @@ const sortedLessons = computed(() => {
 
 <template>
   <div
-    class="course-section"
     v-if="selectedCourse"
+    class="course-section"
   >
     <button
-      @click="back"
       class="button-back"
+      @click="back"
     >
       <font-awesome-icon icon="arrow-left" />
       <span>Back</span>
@@ -85,21 +87,17 @@ const sortedLessons = computed(() => {
     <course-item-video
       :source="videoSrc"
       :poster="videoPoster"
-      :isSelectedLessonEmpty="isSelectedLessonEmpty"
     >
       <div v-if="!isSelectedLessonEmpty">
-        <p>You are watching lesson #{{ selectedLesson.order }}:</p>
-        <span class="lesson-title">{{ selectedLesson.title }}</span>
+        <p>You are watching lesson #{{ selectedLesson?.order }}:</p>
+        <span class="lesson-title">{{ selectedLesson?.title }}</span>
       </div>
     </course-item-video>
     <lessons-list>
       <lessons-list-item
         v-for="lesson in sortedLessons"
         :key="lesson.id"
-        :id="lesson.id"
-        :title="lesson.title"
-        :order="lesson.order"
-        :status="lesson.status"
+        :lesson="lesson"
         :error="lessonError"
         @select="selectLesson"
       />
