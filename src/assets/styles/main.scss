@@ -22,11 +22,13 @@ a:link,
 a:visited {
   color: var(--primary);
 }
+
 a:hover,
 a:focus {
   color: var(--secondary);
   outline: none;
 }
+
 a:active {
   color: var(--primary-50);
 }
@@ -54,15 +56,6 @@ button {
   background-color: var(--color-background-variant);
   padding: 36px;
   border-radius: 35px;
-
-  .title {
-    font-family: 'Open Sans';
-    font-size: 32px;
-    line-height: 1.2;
-    font-weight: 700;
-    margin-top: -8px;
-    color: var(--primary-50);
-  }
 }
 
 .skills-list {
@@ -70,7 +63,12 @@ button {
 }
 
 .category {
-  font-size: 22px;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.category.title {
+  font-weight: 600;
 }
 
 .course-category {

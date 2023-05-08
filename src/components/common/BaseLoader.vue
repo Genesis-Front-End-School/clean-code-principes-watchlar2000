@@ -2,7 +2,11 @@
   <div class="loader">
     <p>Loading</p>
     <div class="blob-container">
-      <div v-for="div in 3" :key="div" class="blob"></div>
+      <div
+        v-for="div in 3"
+        :key="div"
+        class="blob"
+      />
     </div>
   </div>
 </template>

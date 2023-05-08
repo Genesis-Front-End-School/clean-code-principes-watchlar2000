@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DefaultLayout from '@/layout/DefaultLayout.vue';
+import DefaultLayout from '@/components/layout/DefaultLayout.vue';
 </script>
 
 <template>
@@ -20,6 +20,7 @@ import DefaultLayout from '@/layout/DefaultLayout.vue';
 .fade-leave-active {
   transition: opacity 0.1s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

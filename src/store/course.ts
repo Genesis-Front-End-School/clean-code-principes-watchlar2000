@@ -1,85 +1,91 @@
-import { courseDataService } from '@/api/CourseDataService';
+import { api } from '@/api/api';
 import type { Course } from '@/types/Course';
-import type { CourseRootState } from '@/types/CourseRootState';
+import { Pagination } from '@/types/Course';
+import type { ICourseRootState } from '@/types/RootState';
 import { defineStore } from 'pinia';
-
-enum Pagination {
-  per_page = 10,
-}
+import { useErrorStore } from './error';
+import { useLoadingStore } from './loading';
 
 export const useCourseStore = defineStore('course', {
   state: () =>
-  ({
-    courses: [],
-    detailedCourses: [],
-    selectedCourse: null,
-    page: 1,
-    loading: true,
-    error: false,
-    errorMessage: '',
-  } as CourseRootState),
+    ({
+      courses: [],
+      cashedCoursesDetails: [] as Course[],
+      selectedCourse: null,
+      currentPage: 1,
+    } as ICourseRootState),
 
   actions: {
-    async loadCourses() {
+    async fetchCourses() {
+      this.startLoading();
+
       try {
-        this.loading = true;
-        const courses = await courseDataService.getCourses();
+        const courses = await api.getCourses();
         this.courses = courses;
+        this.resetErrors();
       } catch (e: unknown) {
-        this.handleActionError(e);
+        this.handleError(e);
       } finally {
-        this.loading = false;
+        this.stopLoading();
       }
     },
-    async loadCourseById(id: string): Promise<Course | null> {
+    async fetchCourseById(id: string): Promise<Course | null> {
+      this.startLoading();
+
       try {
-        this.loading = true;
-        const course = await courseDataService.getCourseById(id);
-        this.detailedCourses.push(course);
+        const course = await api.getCourseById(id);
+        this.cashedCoursesDetails.push(course);
+        this.resetErrors();
         return course;
       } catch (e: unknown) {
-        this.handleActionError(e);
+        this.handleError(e);
         return null;
       } finally {
-        this.loading = false;
+        this.stopLoading();
       }
     },
-    async setDetailedCourseById(id: string): Promise<any> {
-      const courseData = this.detailedCourses.find((course) => course.id === id);
+    async setDetailedCourseById(id: string): Promise<void> {
+      const courseData = this.getCashedCourse(id);
 
-      if (courseData !== undefined) {
+      if (courseData !== null) {
         this.selectedCourse = courseData;
-        return;
+      } else {
+        this.selectedCourse = await this.fetchCourseById(id);
       }
-
-      this.selectedCourse = await this.loadCourseById(id);
-      return;
     },
-    setInitPage(page: number) {
-      this.page = page;
+    getCashedCourse(id: string): Course | null {
+      const courseData = this.cashedCoursesDetails.find((course) => course.id === id) || null;
+      return courseData;
     },
-    handleActionError(e: unknown) {
+    setInitPage(page: number): void {
+      this.currentPage = page || 1;
+    },
+    handleError(e: unknown): void {
+      const errorStore = useErrorStore();
       const typedError = e as Error;
-      this.error = true;
-      this.errorMessage = typedError.message;
+      errorStore.setError(typedError.message);
+    },
+    resetErrors(): void {
+      const errorStore = useErrorStore();
+      errorStore.clearError();
+    },
+    startLoading(): void {
+      const loadingStore = useLoadingStore();
+      loadingStore.startLoading();
+    },
+    stopLoading(): void {
+      const loadingStore = useLoadingStore();
+      loadingStore.stopLoading();
     },
   },
 
   getters: {
-    paginateCourses(): Course[] {
-      const coursesPerPage = Pagination.per_page;
-
-      if (this.page === 1) {
-        return this.courses?.slice(0, coursesPerPage);
-      }
-
-      const end = this.page * coursesPerPage;
-      const start = end - coursesPerPage;
-
-      return this.courses?.slice(start, end);
+    getPaginatedCourses(): Course[] {
+      const startIndex = (this.currentPage - 1) * Pagination.ItemsPerPage;
+      return this.courses.slice(startIndex, startIndex + Pagination.ItemsPerPage);
     },
-    totalPages(): number {
-      return Math.ceil(this.courses.length / Pagination.per_page);
+    getTotalPages(): number {
+      return Math.ceil(this.courses.length / Pagination.ItemsPerPage);
     },
   },
 });

@@ -8,9 +8,10 @@ const fullYear = computed(() => {
 
 <template>
   <footer class="footer">
-    <a href="https://github.com/watchlar2000/courses-app.git" target="_black"
-      >Source code on Github</a
-    >
+    <a
+      href="https://github.com/watchlar2000/courses-app.git"
+      target="_black"
+    >Source code on Github</a>
     &#169; <span>{{ fullYear }}</span>
   </footer>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1 class="title">
-      <router-link :to="{ name: 'home' }">Courses App</router-link>
+      Courses App
     </h1>
   </header>
 </template>
