@@ -6,9 +6,7 @@ defineProps<{
 
 <template>
   <li>
-    <font-awesome-icon
-      icon="check"
-      class="icon"
-    /> {{ skill }}
+    <font-awesome-icon icon="check" class="icon" />
+    {{ skill }}
   </li>
 </template>

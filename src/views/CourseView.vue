@@ -21,14 +21,12 @@ const route = useRoute();
 const id = route.params.id as string;
 
 watchEffect(() => {
-  setDetailedCourseById(id)
+  setDetailedCourseById(id);
 });
 </script>
 
 <template>
   <base-loader v-if="isLoading" />
-  <base-error v-else-if="hasError">
-    The course you are looking for is not existing.
-  </base-error>
+  <base-error v-else-if="hasError"> The course you are looking for is not existing. </base-error>
   <course-item v-else />
 </template>

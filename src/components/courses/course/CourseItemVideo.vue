@@ -9,11 +9,5 @@ defineProps<{
 
 <template>
   <slot />
-  <video-player
-    :key="source"
-    :src="source"
-    :poster="poster"
-    autoplay
-    controls
-  />
+  <video-player :key="source" :src="source" :poster="poster" autoplay controls />
 </template>

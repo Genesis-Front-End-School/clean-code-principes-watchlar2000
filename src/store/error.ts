@@ -2,10 +2,11 @@ import type { IErrorRootState } from '@/types/RootState';
 import { defineStore } from 'pinia';
 
 export const useErrorStore = defineStore('error', {
-  state: () => ({
-    message: '',
-    hasError: false,
-  } as IErrorRootState),
+  state: () =>
+    ({
+      message: '',
+      hasError: false,
+    } as IErrorRootState),
   actions: {
     setError(message: string): void {
       this.message = message;
@@ -16,4 +17,4 @@ export const useErrorStore = defineStore('error', {
       this.hasError = false;
     },
   },
-})
+});

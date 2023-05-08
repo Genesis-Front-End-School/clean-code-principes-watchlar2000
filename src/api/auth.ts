@@ -23,12 +23,12 @@ export const isUserLoggedIn = async (): Promise<boolean> => {
     console.error(e);
     return false;
   }
-}
+};
 
 export const getTokenFromLocalStorage = (): AuthToken => {
   return window.localStorage.getItem(Auth.TokenStorageKey) ?? null;
-}
+};
 
 export const setTokenToLocalStorage = (token: string): void => {
   window.localStorage.setItem(Auth.TokenStorageKey, token);
-}
+};

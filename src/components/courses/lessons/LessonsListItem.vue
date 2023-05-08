@@ -8,7 +8,7 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   error: LessonError | null;
-  lesson: Lesson
+  lesson: Lesson;
 }>();
 
 const onSelect = (): void => {
@@ -17,7 +17,9 @@ const onSelect = (): void => {
 
 const isLessonLocked = computed(() => props.lesson.status === 'locked');
 
-const displayError = computed(() => props.error?.message && props.error?.lessonId === props.lesson.id);
+const displayError = computed(
+  () => props.error?.message && props.error?.lessonId === props.lesson.id,
+);
 </script>
 
 <template>
@@ -28,19 +30,10 @@ const displayError = computed(() => props.error?.message && props.error?.lessonI
     class="lesson"
   >
     <h3 class="title">
-      <font-awesome-icon
-        v-if="isLessonLocked"
-        icon="lock"
-        class="lesson-chip"
-      />
+      <font-awesome-icon v-if="isLessonLocked" icon="lock" class="lesson-chip" />
       Lesson {{ lesson.order }}: {{ lesson.title }}
     </h3>
-    <p
-      v-if="displayError && props.error"
-      class="error"
-    >
-      This lesson is locked
-    </p>
+    <p v-if="displayError && props.error" class="error">This lesson is locked</p>
     <button
       :class="{
         disabled: lesson.status === 'locked',
