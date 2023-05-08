@@ -5,10 +5,7 @@ import AppHeader from './AppHeader.vue';
 
 <template>
   <div class="container">
-    <app-header
-      class="header"
-      title="Courses app"
-    />
+    <app-header class="header" title="Courses app" />
     <main class="main">
       <slot />
     </main>

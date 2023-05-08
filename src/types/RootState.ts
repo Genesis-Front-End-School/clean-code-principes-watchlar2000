@@ -8,7 +8,7 @@ export interface ICourseRootState {
 }
 
 export interface IErrorRootState {
-  code?: string | number,
-  message: string,
-  hasError: boolean,
+  code?: string | number;
+  message: string;
+  hasError: boolean;
 }

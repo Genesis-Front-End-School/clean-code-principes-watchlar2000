@@ -16,7 +16,7 @@ const props = defineProps<{
 }>();
 
 const toCourse = computed(() => {
-  return { name: 'course', params: { id: props.id } }
+  return { name: 'course', params: { id: props.id } };
 });
 
 const isVideoPlaying = ref<boolean>(false);
@@ -35,16 +35,14 @@ function handleVideoError() {
 }
 
 const imageSource = computed(() => `${props.image}/cover.webp`);
-const areSkillsPresented = computed(() => props.skills.length !== 0)
+const areSkillsPresented = computed(() => props.skills.length !== 0);
 </script>
 
 <template>
   <div class="course-section">
     <course-item-header>
       <router-link :to="toCourse">
-        {{
-          title
-        }}
+        {{ title }}
       </router-link>
     </course-item-header>
     <video-player
@@ -56,26 +54,15 @@ const areSkillsPresented = computed(() => props.skills.length !== 0)
       @mouseleave="stopVideo"
     />
     <div class="course-category">
-      <p class="category">
-        {{ lessonsCount }} lessons
-      </p>
+      <p class="category">{{ lessonsCount }} lessons</p>
       <p class="category">
         Rating: <span>{{ rating }}</span>
       </p>
     </div>
-    <div
-      v-if="areSkillsPresented"
-      class="skills"
-    >
-      <h3 class="category title">
-        Skills:
-      </h3>
+    <div v-if="areSkillsPresented" class="skills">
+      <h3 class="category title">Skills:</h3>
       <skills-list>
-        <skills-list-item
-          v-for="(skill) in skills"
-          :key="skill"
-          :skill="skill"
-        />
+        <skills-list-item v-for="skill in skills" :key="skill" :skill="skill" />
       </skills-list>
     </div>
   </div>

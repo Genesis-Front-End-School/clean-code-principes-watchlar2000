@@ -9,9 +9,7 @@ const toHome = computed(() => {
 <template>
   <div class="not-found">
     <h2>404 | Page not found</h2>
-    <router-link :to="toHome">
-      Go back home
-    </router-link>
+    <router-link :to="toHome"> Go back home </router-link>
   </div>
 </template>
 

@@ -9,7 +9,7 @@ export interface CourseService {
 const { VITE_APP_COURSES_URL } = import.meta.env;
 
 export class HttpCourseService implements CourseService {
-  constructor(private httpClient: AxiosInstance) { }
+  constructor(private httpClient: AxiosInstance) {}
 
   async getCourses(): Promise<Course[]> {
     const { data } = await this.httpClient.get(VITE_APP_COURSES_URL);

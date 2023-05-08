@@ -22,12 +22,12 @@ const back = (): void => {
 };
 
 const findLessonById = (id: string): Lesson | null => {
-  return selectedCourse.value?.lessons?.find(lesson => lesson.id === id) ?? null;
-}
+  return selectedCourse.value?.lessons?.find((lesson) => lesson.id === id) ?? null;
+};
 
 const clearLessonError = (): void => {
   lessonError.value = null;
-}
+};
 
 const selectUnlockedLesson = (id: string): void => {
   const lesson = findLessonById(id);
@@ -70,24 +70,15 @@ const sortedLessons = computed(() => {
 </script>
 
 <template>
-  <div
-    v-if="selectedCourse"
-    class="course-section"
-  >
-    <button
-      class="button-back"
-      @click="back"
-    >
+  <div v-if="selectedCourse" class="course-section">
+    <button class="button-back" @click="back">
       <font-awesome-icon icon="arrow-left" />
       <span>Back</span>
     </button>
     <course-item-header>
       {{ selectedCourse.title }}
     </course-item-header>
-    <course-item-video
-      :source="videoSrc"
-      :poster="videoPoster"
-    >
+    <course-item-video :source="videoSrc" :poster="videoPoster">
       <div v-if="!isSelectedLessonEmpty">
         <p>You are watching lesson #{{ selectedLesson?.order }}:</p>
         <span class="lesson-title">{{ selectedLesson?.title }}</span>

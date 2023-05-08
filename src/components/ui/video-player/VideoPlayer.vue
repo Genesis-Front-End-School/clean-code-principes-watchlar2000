@@ -50,7 +50,7 @@ const onError = () => {
 
 .vjs-modal-dialog .vjs-modal-dialog-content,
 .video-js .vjs-modal-dialog,
-.vjs-button>.vjs-icon-placeholder:before,
+.vjs-button > .vjs-icon-placeholder:before,
 .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
   position: static;
 }

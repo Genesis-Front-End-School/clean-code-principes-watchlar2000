@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Pagination } from '@/types/Course';
 import { computed, ref, watch } from 'vue';
-import PaginationButton from './PaginationButton.vue';
+import BaseButton from '../../common/BaseButton.vue';
 
 interface BasePaginationProps {
   maxVisibleButtons: number;
@@ -95,19 +95,9 @@ watch(actualPage, (newPage) => {
 
 <template>
   <div class="pagination">
-    <pagination-button
-      :disabled="isFirstPage"
-      @click="onClickFirstPage"
-    >
-      First
-    </pagination-button>
-    <pagination-button
-      :disabled="isFirstPage"
-      @click="onClickPreviousPage"
-    >
-      Prev
-    </pagination-button>
-    <pagination-button
+    <base-button :disabled="isFirstPage" @click="onClickFirstPage">First</base-button>
+    <base-button :disabled="isFirstPage" @click="onClickPreviousPage">Prev</base-button>
+    <base-button
       v-for="(page, idx) in pages"
       :key="idx"
       :disabled="page.isDisabled"
@@ -115,19 +105,9 @@ watch(actualPage, (newPage) => {
       @click="onClickPage(page.name)"
     >
       {{ page.name }}
-    </pagination-button>
-    <pagination-button
-      :disabled="isLastPage"
-      @click="onClickNextPage"
-    >
-      Next
-    </pagination-button>
-    <pagination-button
-      :disabled="isLastPage"
-      @click="onClickLastPage"
-    >
-      Last
-    </pagination-button>
+    </base-button>
+    <base-button :disabled="isLastPage" @click="onClickNextPage">Next</base-button>
+    <base-button :disabled="isLastPage" @click="onClickLastPage">Last</base-button>
   </div>
 </template>
 
