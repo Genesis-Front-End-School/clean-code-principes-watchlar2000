@@ -1,6 +1,12 @@
+<script setup lang="ts">
+defineProps<{
+  title: string;
+}>();
+</script>
+
 <template>
   <header class="header">
-    <h1 class="title">Courses App</h1>
+    <h1 class="title">{{ title }}</h1>
   </header>
 </template>
 
