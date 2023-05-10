@@ -8,7 +8,6 @@ describe('Error Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     store = useErrorStore();
-    console.log(store.message);
   });
 
   it('initializes with empty fields', () => {
