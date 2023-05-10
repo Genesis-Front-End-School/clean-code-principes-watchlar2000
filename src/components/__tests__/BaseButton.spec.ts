@@ -1,14 +1,24 @@
-import BaseButton from '@/components/common/BaseButton.vue';
-import { mount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import BaseButton from '../common/BaseButton.vue';
 
 describe('BaseButton', () => {
-  it('is mounted', () => {
-    expect(BaseButton).toBeTruthy();
+  it('renders slot text when component is created', () => {
+    const wrapper = mount(BaseButton, {
+      slots: {
+        default: 'Button',
+      },
+    });
+    expect(wrapper.text()).toMatch('Button');
+  });
+
+  it('renders default text when component is created without specified slot text', () => {
+    const wrapper = mount(BaseButton);
+    expect(wrapper.text()).toMatch('Default button');
   });
 
   it('has correct attribute', () => {
-    const wrapper = mount(BaseButton);
+    const wrapper = shallowMount(BaseButton);
     const button = wrapper.find('button');
     expect(button.attributes().type).toBe('button');
   });

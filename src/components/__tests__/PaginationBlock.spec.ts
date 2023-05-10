@@ -1,6 +1,6 @@
-import PaginationBlock from '@/components/ui/pagination/PaginationBlock.vue';
 import { mount } from '@vue/test-utils';
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import PaginationBlock from '../ui/pagination/PaginationBlock.vue';
 
 const mockProps = {
   maxVisibleButtons: 3,
@@ -10,59 +10,45 @@ const mockProps = {
 };
 
 describe('PaginationBlock', () => {
-  it('is mounted', () => {
-    expect(PaginationBlock).toBeTruthy();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let wrapper: any = null;
+
+  beforeEach(() => {
+    wrapper = mount(PaginationBlock, {
+      props: mockProps,
+    });
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
   });
 
   it('displays actual page which is equal to current page prop', () => {
-    const wrapper = mount(PaginationBlock, {
-      props: mockProps,
-    });
     expect(wrapper.vm.actualPage).toBe(mockProps.currentPage);
   });
 
-  it('next button increments actual page by 1', async () => {
-    const wrapper = mount(PaginationBlock, {
-      props: mockProps,
-    });
-
-    await wrapper.vm.onClickNextPage();
+  it('next button increments actual page by 1', () => {
+    wrapper.vm.onClickNextPage();
     expect(wrapper.vm.actualPage).toBe(mockProps.currentPage + 1);
   });
 
-  it('previous button decrements actual page by 1', async () => {
-    const wrapper = mount(PaginationBlock, {
-      props: mockProps,
-    });
-
-    await wrapper.vm.onClickPreviousPage();
+  it('previous button decrements actual page by 1', () => {
+    wrapper.vm.onClickPreviousPage();
     expect(wrapper.vm.actualPage).toBe(mockProps.currentPage - 1);
   });
 
-  it('first button sets actual page to 1', async () => {
-    const wrapper = mount(PaginationBlock, {
-      props: mockProps,
-    });
-
-    await wrapper.vm.onClickFirstPage();
+  it('first button sets actual page to 1', () => {
+    wrapper.vm.onClickFirstPage();
     expect(wrapper.vm.actualPage).toBe(1);
   });
 
-  it(`last button sets actual page to ${mockProps.totalPages}`, async () => {
-    const wrapper = mount(PaginationBlock, {
-      props: mockProps,
-    });
-
-    await wrapper.vm.onClickLastPage();
+  it(`last button sets actual page to ${mockProps.totalPages}`, () => {
+    wrapper.vm.onClickLastPage();
     expect(wrapper.vm.actualPage).toBe(mockProps.totalPages);
   });
 
-  it(`onClickPage sets actual page to the required page`, async () => {
-    const wrapper = mount(PaginationBlock, {
-      props: mockProps,
-    });
-
-    await wrapper.vm.onClickPage(4);
+  it(`onClickPage sets actual page to the required page`, () => {
+    wrapper.vm.onClickPage(4);
     expect(wrapper.vm.actualPage).toBe(4);
   });
 });

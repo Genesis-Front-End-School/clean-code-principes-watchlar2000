@@ -91,6 +91,15 @@ const onClickLastPage = () => {
 watch(actualPage, (newPage) => {
   emit('pagechange', newPage);
 });
+
+defineExpose({
+  actualPage,
+  onClickNextPage,
+  onClickPreviousPage,
+  onClickFirstPage,
+  onClickLastPage,
+  onClickPage,
+});
 </script>
 
 <template>

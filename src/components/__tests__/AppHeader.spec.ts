@@ -1,18 +1,13 @@
-import AppHeader from '@/components/layout/AppHeader.vue';
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import AppHeader from '../layout/AppHeader.vue';
 
 describe('AppHeader', () => {
-  it('is mounted', () => {
-    expect(AppHeader).toBeTruthy();
-  });
-
-  it('displays title prop', () => {
-    const title = 'Courses App';
-    const wrapper = mount(AppHeader, {
-      props: { title },
+  it('displays title when component is created', () => {
+    const wrapper = shallowMount(AppHeader, {
+      props: { title: 'Courses App' },
     });
     const wrapperHeader = wrapper.find('h1');
-    expect(wrapperHeader.text()).toContain(title);
+    expect(wrapperHeader.text()).toMatch('Courses App');
   });
 });

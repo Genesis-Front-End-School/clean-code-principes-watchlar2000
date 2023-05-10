@@ -1,14 +1,10 @@
-import BaseLoader from '@/components/common/BaseLoader.vue';
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import BaseLoader from '../common/BaseLoader.vue';
 
 describe('BaseLoader', () => {
-  it('is mounted', () => {
-    expect(BaseLoader).toBeTruthy();
-  });
-
   it('dispays loading text', () => {
-    const wrapper = mount(BaseLoader);
+    const wrapper = shallowMount(BaseLoader);
     const paragraph = wrapper.find('p');
     expect(paragraph.html()).toContain('Loading');
   });

@@ -1,7 +1,7 @@
 <template>
   <div class="error">
     <h2 class="title">Oops...</h2>
-    <slot />
+    <slot>There is an error</slot>
   </div>
 </template>
 

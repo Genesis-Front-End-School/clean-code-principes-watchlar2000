@@ -1,6 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import AppFooter from './AppFooter.vue';
 import AppHeader from './AppHeader.vue';
+
+const fullYear = computed(() => {
+  return new Date().getFullYear();
+});
+
+defineExpose({ fullYear });
 </script>
 
 <template>
@@ -9,7 +16,16 @@ import AppHeader from './AppHeader.vue';
     <main class="main">
       <slot />
     </main>
-    <app-footer class="footer" />
+    <app-footer class="footer">
+      <template #link>
+        <a href="https://github.com/watchlar2000/courses-app.git" target="_black"
+          >Source code on Github</a
+        >
+      </template>
+      <template #message>
+        &#169; Genesis Front-End School <span>{{ fullYear }}</span>
+      </template>
+    </app-footer>
   </div>
 </template>
 
