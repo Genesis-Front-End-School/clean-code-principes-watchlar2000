@@ -5,6 +5,9 @@ export interface ICourseRootState {
   cashedCoursesDetails: Course[];
   selectedCourse: Course | null;
   currentPage: number;
+  loading: boolean;
+  error: boolean;
+  errorMessage: string;
 }
 
 export interface IErrorRootState {

@@ -1,10 +1,10 @@
 import { mockCourses } from '__mocks__/course';
 import { createPinia, setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useCourseStore } from '../course';
+import { useCourseStore } from '../Course';
 
 describe('Course Store', () => {
-  let store = null;
+  let store;
 
   beforeEach(() => {
     setActivePinia(createPinia());
@@ -13,6 +13,10 @@ describe('Course Store', () => {
 
   it('is initialized with zero courses', () => {
     expect(store.courses.length).toEqual(0);
+  });
+
+  it('is initialized with no error', () => {
+    expect(store.error).toBe(false);
   });
 
   it('calls fetchCourses to load the courses and updates courses state', async () => {
