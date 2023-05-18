@@ -1,3 +1,3 @@
-import PaginationFeature from './index.vue';
+import PaginationFeature from './Pagination.vue';
 
 export default PaginationFeature;

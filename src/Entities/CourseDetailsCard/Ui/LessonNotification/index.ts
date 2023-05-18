@@ -1,3 +1,3 @@
-import LessonNotification from './index.vue';
+import LessonNotification from './LessonNotification.vue';
 
 export default LessonNotification;

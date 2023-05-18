@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios';
-import type { Course } from '../../types/Course';
+import type { Course } from '../../../Types/Course';
 
 export interface CourseService {
   getCourses(): Promise<Course[]>;

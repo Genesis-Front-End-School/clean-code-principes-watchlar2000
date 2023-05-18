@@ -1,3 +1,3 @@
-import HeaderLogo from './index.vue';
+import HeaderLogo from './Logo.vue';
 
 export default HeaderLogo;

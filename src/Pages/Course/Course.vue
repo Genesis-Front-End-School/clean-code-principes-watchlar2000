@@ -3,14 +3,14 @@ import { storeToRefs } from 'pinia';
 import { watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import CourseDetailsCard from '../../Entities/CourseDetailsCard';
-import BaseError from '../../Shared/Error';
-import BaseLoader from '../../Shared/Loader';
-import { useCourseStore } from '../../Store';
+import BaseError from '../../Shared/Components/Error';
+import BaseLoader from '../../Shared/Components/Loader';
+import useCourseStore from '../../Store';
 import CourseDetails from '../../Widgets/CourseDetails';
 
 const courseStore = useCourseStore();
 const { setDetailedCourseById } = courseStore;
-const { selectedCourse, error } = storeToRefs(courseStore);
+const { selectedCourse, error, errorCode, loading } = storeToRefs(courseStore);
 
 const route = useRoute();
 
@@ -22,8 +22,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <base-loader v-if="!selectedCourse" />
-  <base-error v-else-if="error"> The course you are looking for is not existing. </base-error>
+  <base-loader v-if="loading" />
+  <base-error v-else-if="error" :error-code="errorCode" />
   <course-details v-else>
     <course-details-card :course="selectedCourse" />
   </course-details>

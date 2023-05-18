@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import BaseButton from '../../../../Shared/Button';
+import BaseButton from '../../../../Shared/Components/Button';
 
 const router = useRouter();
 
@@ -20,5 +20,6 @@ const back = (): void => {
 .button-back {
   background-color: transparent;
   padding: 0;
+  color: var(--color-black-50);
 }
 </style>

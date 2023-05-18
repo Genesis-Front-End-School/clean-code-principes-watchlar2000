@@ -1,8 +1,8 @@
-import type { Course } from '@/Types/Course';
-import { Pagination } from '@/Types/Course';
-import type { ICourseRootState } from '@/Types/RootState';
 import { defineStore } from 'pinia';
-import { api } from '../Api';
+import { courseService as api } from '../../Shared/Api';
+import type { Course } from '../../Shared/Types/Course';
+import { Pagination } from '../../Shared/Types/Course';
+import type { CourseRootState } from './Types/RootState';
 
 export const useCourseStore = defineStore('course', {
   state: () =>
@@ -13,8 +13,8 @@ export const useCourseStore = defineStore('course', {
       currentPage: 1,
       loading: false,
       error: false,
-      errorMessage: '',
-    } as ICourseRootState),
+      errorCode: '',
+    } as CourseRootState),
 
   actions: {
     async fetchCourses() {
@@ -64,11 +64,11 @@ export const useCourseStore = defineStore('course', {
     handleError(e: unknown): void {
       const typedError = e as Error;
       this.error = true;
-      this.errorMessage = typedError.message;
+      this.errorCode = typedError.response.status;
     },
     resetErrors(): void {
       this.error = false;
-      this.errorMessage = '';
+      this.errorCode = '';
     },
     startLoading(): void {
       this.loading = true;

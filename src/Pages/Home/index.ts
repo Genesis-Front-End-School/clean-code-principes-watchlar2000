@@ -1,3 +1,3 @@
-import HomeView from './index.vue';
+import HomeView from './Home.vue';
 
 export default HomeView;

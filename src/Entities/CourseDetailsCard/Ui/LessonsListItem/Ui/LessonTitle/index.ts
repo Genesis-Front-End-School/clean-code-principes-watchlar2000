@@ -1,3 +1,3 @@
-import LessonTitle from './index.vue';
+import LessonTitle from './LessonTitle.vue';
 
 export default LessonTitle;

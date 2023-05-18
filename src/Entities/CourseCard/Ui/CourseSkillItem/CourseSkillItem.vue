@@ -27,5 +27,6 @@ defineExpose({ capitalizedSkill });
   display: flex;
   align-items: center;
   gap: 10px;
+  font-weight: 100;
 }
 </style>

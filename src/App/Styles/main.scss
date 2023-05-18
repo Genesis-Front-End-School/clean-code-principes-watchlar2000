@@ -1,13 +1,15 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background-color: var(--color-background);
   line-height: 1.6;
   font-family: 'Sanchez', sans-serif;
   font-size: 22px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: --color-background;
+  background: -webkit-linear-gradient(to left, var(--color-background), var(--color-background-72));
+  background: linear-gradient(to left, var(--color-background), var(--color-background-72));
 }
 
 a {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockCourses } from '../../../../__mocks__/course';
-import { HttpCourseService } from '../courseService';
+import { HttpCourseService } from '../Course/courseService';
 
 vi.mock('axios');
 

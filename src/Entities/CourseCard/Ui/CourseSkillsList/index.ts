@@ -1,3 +1,3 @@
-import CourseSkillsList from './index.vue';
+import CourseSkillsList from './CourseSkillsList.vue';
 
 export default CourseSkillsList;

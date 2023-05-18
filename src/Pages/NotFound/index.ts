@@ -1,3 +1,3 @@
-import NotFoundView from './index.vue';
+import NotFoundView from './NotFound.vue';
 
 export default NotFoundView;

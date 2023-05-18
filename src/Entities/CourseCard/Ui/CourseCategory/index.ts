@@ -1,3 +1,3 @@
-import CourseCategory from './index.vue';
+import CourseCategory from './CourseCategory.vue';
 
 export default CourseCategory;

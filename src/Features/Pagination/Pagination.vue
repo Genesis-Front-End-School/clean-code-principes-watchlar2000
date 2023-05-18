@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Pagination } from '@/Types/Course';
 import { computed, ref, watch } from 'vue';
-import BaseButton from '../../Shared/Button';
+import BaseButton from '../../Shared/Components/Button';
+import { Pagination } from '../../Shared/Types/Course';
 
 interface BasePaginationProps {
   maxVisibleButtons: number;
@@ -127,9 +127,24 @@ defineExpose({
   gap: 12px;
   justify-content: center;
 
+  button {
+    color: var(--color-black-50);
+    background: var(--color-background-85);
+
+    &:hover:not(:disabled) {
+      background: var(--secondary);
+      color: var(--color-background);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
   .active {
-    background-color: var(--primary);
-    color: var(--color-background-secondary);
+    opacity: 100%;
+    background-color: var(--primary-50);
+    color: var(--color-text);
   }
 }
 

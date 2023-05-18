@@ -18,14 +18,6 @@ export const routes = [
     },
   },
   {
-    path: '/auth-failed',
-    name: 'auth-failed',
-    component: () => import('./AuthFailed'),
-    meta: {
-      title: 'Auth failed',
-    },
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('./NotFound'),

@@ -1,3 +1,3 @@
-import CourseDetailsCard from './index.vue';
+import CourseDetailsCard from './CourseDetailsCard.vue';
 
 export default CourseDetailsCard;

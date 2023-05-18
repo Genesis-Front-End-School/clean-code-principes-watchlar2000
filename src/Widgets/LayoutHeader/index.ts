@@ -1,3 +1,3 @@
-import LayoutFooter from './index.vue';
+import LayoutFooter from './LayoutHeader.vue';
 
 export default LayoutFooter;

@@ -4,21 +4,21 @@ import { onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import CourseCard from '../../Entities/CourseCard';
 import PaginationFeature from '../../Features/Pagination';
-import BaseError from '../../Shared/Error';
-import BaseLoader from '../../Shared/Loader';
-import { useCourseStore } from '../../Store';
-import { Pagination } from '../../Types/Course';
+import BaseError from '../../Shared/Components/Error';
+import BaseLoader from '../../Shared/Components/Loader';
+import { Pagination } from '../../Shared/Types/Course';
+import useCourseStore from '../../Store';
 import CourseList from '../../Widgets/CourseList';
 
 const courseStore = useCourseStore();
-const { currentPage, getPaginatedCourses, getTotalPages, error, errorMessage } =
+const { currentPage, getPaginatedCourses, getTotalPages, error, errorCode, loading } =
   storeToRefs(courseStore);
-const { fetchCourses, courses, setInitPage } = courseStore;
+const { fetchCourses, setInitPage } = courseStore;
 
 const router = useRouter();
 
 const onPageChange = (page: number) => {
-  courseStore.currentPage = page;
+  currentPage.value = page;
 };
 
 watch(currentPage, () => {
@@ -33,17 +33,15 @@ onMounted(() => {
     setInitPage(+page);
   }
 
-  if (courses.length === 0) {
+  if (courseStore.courses.length === 0) {
     fetchCourses();
   }
 });
 </script>
 
 <template>
-  <base-loader v-if="getPaginatedCourses.length === 0" />
-  <base-error v-else-if="error">
-    {{ errorMessage }}
-  </base-error>
+  <base-loader v-if="loading" />
+  <base-error v-else-if="error" :error-code="errorCode" />
   <div v-else>
     <course-list>
       <course-card

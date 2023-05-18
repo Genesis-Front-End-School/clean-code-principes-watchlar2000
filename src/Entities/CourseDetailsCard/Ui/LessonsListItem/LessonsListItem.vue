@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import BaseButton from '../../../../Shared/Button';
-import type { Lesson, LessonError } from '../../../../Types/Course';
+import BaseButton from '../../../../Shared/Components/Button';
+import type { Lesson, LessonError } from '../../../../Shared/Types/Course';
 import LessonErrorNotification from './Ui/LessonErrorNotification';
 import LessonTitle from './Ui/LessonTitle';
 

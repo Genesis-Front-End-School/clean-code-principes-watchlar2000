@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import CardHeader from '../../Shared/CardHeader/index.vue';
-import VideoPlayer from '../../Shared/VideoPlayer';
+import CardHeader from '../../Shared/Components/CardHeader';
+import VideoPlayer from '../../Shared/Components/VideoPlayer';
 import CourseCategory from './Ui/CourseCategory';
 import CourseSkillItem from './Ui/CourseSkillItem';
 import CourseSkillsList from './Ui/CourseSkillsList';

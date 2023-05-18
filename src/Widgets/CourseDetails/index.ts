@@ -1,3 +1,3 @@
-import CourseDetails from './index.vue';
+import CourseDetails from './CourseDetails.vue';
 
 export default CourseDetails;

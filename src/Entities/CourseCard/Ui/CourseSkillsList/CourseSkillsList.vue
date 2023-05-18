@@ -6,3 +6,9 @@
     </ul>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.title {
+  font-weight: 500;
+}
+</style>

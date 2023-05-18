@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import CardHeader from '../../Shared/CardHeader/index.vue';
-import VideoPlayer from '../../Shared/VideoPlayer';
-import type { Course, Lesson, LessonError } from '../../Types/Course';
+import CardHeader from '../../Shared/Components/CardHeader';
+import VideoPlayer from '../../Shared/Components/VideoPlayer';
+import type { Course, Lesson, LessonError } from '../../Shared/Types/Course';
 import GoBackButton from './Ui/GoBackButton';
 import LessonNotification from './Ui/LessonNotification';
 import LessonsList from './Ui/LessonsList';
 import LessonsListItem from './Ui/LessonsListItem';
 
 const props = defineProps<{
-  course: Course;
+  course: Course | null;
 }>();
 
-const videoSrc = ref<string>(props.course.meta.courseVideoPreview?.link ?? '');
-const videoPoster = ref<string>(`${props.course.previewImageLink}/cover.webp`);
+const videoSrc = ref<string>(props.course?.meta.courseVideoPreview?.link ?? '');
+const videoPoster = ref<string>(`${props.course?.previewImageLink}/cover.webp`);
 const lessonError = ref<LessonError | null>(null);
 const selectedLesson = ref<Lesson | null>(null);
 
 const findLessonById = (id: string): Lesson | null => {
-  return props.course.lessons?.find((lesson) => lesson.id === id) ?? null;
+  return props.course?.lessons.find((lesson) => lesson.id === id) ?? null;
 };
 
 const clearLessonError = (): void => {
@@ -80,7 +80,7 @@ defineExpose({ sortedLessons, selectLesson });
       :order="selectedLesson?.order"
     />
     <video-player :key="videoSrc" :src="videoSrc" :poster="videoPoster" autoplay controls />
-    <lessons-list>
+    <lessons-list class="list">
       <lessons-list-item
         v-for="lesson in sortedLessons"
         :key="lesson.id"
@@ -98,5 +98,9 @@ defineExpose({ sortedLessons, selectLesson });
   display: flex;
   flex-direction: column;
   gap: 18px;
+}
+
+.list {
+  margin-top: 8px;
 }
 </style>

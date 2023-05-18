@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { routes } from '../../Pages/routes';
-import { isUserLoggedIn } from '../../Shared/Api/Auth';
+import { authService } from '../../Shared/Api';
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,11 +16,8 @@ export const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   window.document.title = `${to.meta.title}`;
-  const isLoggedIn = await isUserLoggedIn();
 
-  if (!isLoggedIn) {
-    next('/auth-failed');
-  }
+  await authService.isUserLoggedIn();
 
   next();
 });

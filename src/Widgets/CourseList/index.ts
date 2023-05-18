@@ -1,3 +1,3 @@
-import CourseList from './index.vue';
+import CourseList from './CourseList.vue';
 
 export default CourseList;

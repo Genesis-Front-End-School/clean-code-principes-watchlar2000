@@ -1,3 +1,3 @@
-import GoBackButton from './index.vue';
+import GoBackButton from './GoBackButton.vue';
 
 export default GoBackButton;

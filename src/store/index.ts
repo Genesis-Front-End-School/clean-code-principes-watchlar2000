@@ -1,3 +1,3 @@
 import { useCourseStore } from './Course';
 
-export { useCourseStore };
+export default useCourseStore;
