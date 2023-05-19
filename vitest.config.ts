@@ -13,7 +13,7 @@ export default mergeConfig(
       root: fileURLToPath(new URL('./', import.meta.url)),
       coverage: {
         provider: 'c8',
-        // all: true,
+        all: true,
       },
     },
   }),
