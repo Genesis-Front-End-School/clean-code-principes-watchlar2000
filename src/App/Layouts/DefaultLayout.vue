@@ -32,6 +32,9 @@ import { getCurrentYear } from './Lib';
     'header'
     'main'
     'footer';
+  background: --color-background;
+  background: -webkit-linear-gradient(to left, var(--color-background), var(--color-background-72));
+  background: linear-gradient(to left, var(--color-background), var(--color-background-72));
 }
 
 .header {

@@ -7,5 +7,6 @@
   font-size: 48px;
   font-family: 'Open Sans';
   font-weight: 700;
+  pointer-events: none;
 }
 </style>

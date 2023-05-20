@@ -32,23 +32,20 @@
   height: 16px;
   width: 16px;
   transform: scale(1);
-  animation: pulse-black 1s infinite;
+  animation: pulse-black 0.75s infinite;
 }
 
 @keyframes pulse-black {
   0% {
     transform: scale(0.75);
-    box-shadow: 0 0 0 0 var(--color-black-50);
   }
 
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 12px var(--color-black-0);
+  75% {
+    transform: scale(1.3);
   }
 
   100% {
     transform: scale(0.75);
-    box-shadow: 0 0 0 0 var(--color-black-0);
   }
 }
 </style>
