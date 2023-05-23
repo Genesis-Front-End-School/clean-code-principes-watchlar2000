@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { getTheme, setTheme } from '../Lib';
+import { THEME_LOCAL_STORAGE_KEY } from '../Lib/utils';
 
 describe('Utils', () => {
   afterEach(() => {
@@ -10,7 +11,7 @@ describe('Utils', () => {
   it('setTheme sets the theme in local storage', () => {
     const theme = 'dark';
     setTheme(theme);
-    expect(localStorage.getItem('user-theme')).toBe(theme);
+    expect(localStorage.getItem(THEME_LOCAL_STORAGE_KEY)).toBe(theme);
   });
 
   it('setTheme sets the theme as the document class', () => {
@@ -21,7 +22,7 @@ describe('Utils', () => {
 
   it('getTheme returns the theme from local storage', () => {
     const theme = 'dark';
-    localStorage.setItem('user-theme', theme);
+    localStorage.setItem(THEME_LOCAL_STORAGE_KEY, theme);
     expect(getTheme()).toBe(theme);
   });
 

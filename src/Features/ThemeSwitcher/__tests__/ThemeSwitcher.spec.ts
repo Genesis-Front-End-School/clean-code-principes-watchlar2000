@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ThemeSwitcher from '..';
-import { Theme, ThemeIcon } from '../Lib/types';
+import { ThemeIcon, ThemeMode } from '../Lib/types';
 
 describe('ThemeSwitcher', () => {
   let wrapper;
@@ -16,13 +16,13 @@ describe('ThemeSwitcher', () => {
   });
 
   it('renders properly', async () => {
-    expect(wrapper.vm.userTheme).toBe(Theme.Light);
+    expect(wrapper.vm.userTheme).toBe(ThemeMode.Light);
     expect(wrapper.vm.icon).toBe(ThemeIcon.Light);
     expect(wrapper.find('.icon').text()).toMatch(ThemeIcon.Light);
   });
 
   it('sets initial userTheme value to light-theme if there is no userTheme data in local storage', async () => {
-    expect(wrapper.vm.userTheme).toBe(Theme.Light);
+    expect(wrapper.vm.userTheme).toBe(ThemeMode.Light);
   });
 
   it('has icon computed function which works properly ', async () => {
@@ -36,7 +36,7 @@ describe('ThemeSwitcher', () => {
   it('has toggleTheme function which works properly ', async () => {
     const toggleSpy = vi.spyOn(wrapper.vm, 'toggleTheme');
 
-    expect(wrapper.vm.userTheme).toBe(Theme.Light);
+    expect(wrapper.vm.userTheme).toBe(ThemeMode.Light);
 
     await wrapper.vm.toggleTheme();
 

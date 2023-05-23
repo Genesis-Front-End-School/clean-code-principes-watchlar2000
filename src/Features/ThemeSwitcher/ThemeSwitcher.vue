@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { getTheme, setTheme } from './Lib';
-import { Theme, ThemeIcon } from './Lib/types';
+import { ThemeIcon, ThemeMode } from './Lib/types';
 
 const userTheme = ref<string | null>(null);
 
 const toggleTheme = (): void => {
-  userTheme.value === Theme.Light ? setTheme(Theme.Dark) : setTheme(Theme.Light);
+  userTheme.value === ThemeMode.Light ? setTheme(ThemeMode.Dark) : setTheme(ThemeMode.Light);
   userTheme.value = getTheme();
 };
 
 const icon = computed(() => {
-  return userTheme.value === Theme.Light ? ThemeIcon.Light : ThemeIcon.Dark;
+  return userTheme.value === ThemeMode.Light ? ThemeIcon.Light : ThemeIcon.Dark;
 });
 
 onMounted(() => {
-  userTheme.value = getTheme() ?? Theme.Light;
+  userTheme.value = getTheme() ?? ThemeMode.Light;
   setTheme(userTheme.value);
 });
 
