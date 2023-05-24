@@ -1,31 +1,39 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { getTheme, setTheme } from './Lib';
-import { ThemeIcon, ThemeMode } from './Lib/types';
+import { THEMES_LIST, themeModes } from './Lib/consts';
+import { ThemeService } from './Lib/themeService';
+import { getCurrentIcon } from './Lib/utils';
+
+const themeService = new ThemeService(themeModes);
 
 const userTheme = ref<string | null>(null);
 
-const toggleTheme = (): void => {
-  userTheme.value === ThemeMode.Light ? setTheme(ThemeMode.Dark) : setTheme(ThemeMode.Light);
-  userTheme.value = getTheme();
+const displayIcon = computed(() => {
+  const icon = getCurrentIcon(THEMES_LIST, userTheme.value);
+
+  if (!icon) {
+    return userTheme.value?.slice(0, 1);
+  }
+
+  return icon;
+});
+
+const nextTheme = () => {
+  themeService.next();
+  userTheme.value = themeService.get();
 };
 
-const icon = computed(() => {
-  return userTheme.value === ThemeMode.Light ? ThemeIcon.Light : ThemeIcon.Dark;
-});
-
 onMounted(() => {
-  userTheme.value = getTheme() ?? ThemeMode.Light;
-  setTheme(userTheme.value);
+  userTheme.value = themeService.get();
 });
 
-defineExpose({ icon, toggleTheme, userTheme });
+defineExpose({ userTheme, displayIcon, nextTheme });
 </script>
 
 <template>
-  <div class="icon" @click="toggleTheme">
+  <div class="icon" @click="nextTheme">
     <span>
-      {{ icon }}
+      {{ displayIcon }}
     </span>
   </div>
 </template>

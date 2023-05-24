@@ -20,7 +20,7 @@
   --color-danger: hsl(0, 81%, 35%);
 }
 
-:root.dark-theme {
+[data-theme='dark'] {
   --color-text: hsl(0, 0%, 85%);
   --primary: hsl(212, 54%, 64%);
   --primary-50: hsl(212, 51%, 50%);

@@ -1,10 +1,9 @@
-export const THEME_LOCAL_STORAGE_KEY = 'user-theme';
+import type { ThemesList } from './types';
 
-export const setTheme = (theme: string): void => {
-  localStorage.setItem(THEME_LOCAL_STORAGE_KEY, theme);
-  document.documentElement.className = theme;
-};
-
-export const getTheme = (): string | null => {
-  return localStorage.getItem(THEME_LOCAL_STORAGE_KEY);
+export const getCurrentIcon = (
+  themes: ThemesList[],
+  currentThemeMode: string | null,
+): string | undefined => {
+  const themeData = themes.find((t) => t.mode === currentThemeMode);
+  return themeData?.icon;
 };
