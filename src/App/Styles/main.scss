@@ -7,9 +7,6 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: --color-background;
-  background: -webkit-linear-gradient(to left, var(--color-background), var(--color-background-72));
-  background: linear-gradient(to left, var(--color-background), var(--color-background-72));
 }
 
 a {
